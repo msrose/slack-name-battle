@@ -35,16 +35,18 @@ exports.lambdaHandler = async (event, context) => {
         ])
 
         response = {
-            response_type: 'in_channel',
             statusCode: 200,
             body: JSON.stringify({
-                attacker,
-                target,
-                lifeForce: nameBattle({ attacker, target })
+                response_type: 'in_channel',
+                text: JSON.stringify({
+                    attacker,
+                    target,
+                  lifeForce: nameBattle({ attacker, target }),
+                })
             })
         }
     } catch (err) {
-        console.log(err);
+        console.log(err)
 
         let errorMessage = err.message
         let statusCode = 400
@@ -63,4 +65,4 @@ exports.lambdaHandler = async (event, context) => {
     }
 
     return response
-};
+}
