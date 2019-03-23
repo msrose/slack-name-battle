@@ -35,6 +35,7 @@ exports.lambdaHandler = async (event, context) => {
         ])
 
         response = {
+            response_type: 'in_channel',
             statusCode: 200,
             body: JSON.stringify({
                 attacker,
@@ -46,12 +47,15 @@ exports.lambdaHandler = async (event, context) => {
         console.log(err);
 
         let errorMessage = err.message
+        let statusCode = 400
+
         if (errorMessage === 'user_not_found') {
             errorMessage = `${targetUserId} is not a valid user`
+            statusCode = 200
         }
 
         response = {
-            statusCode: 400,
+            statusCode,
             body: JSON.stringify({
                 text: `Could not conduct Name Battle! Error: ${errorMessage}.`
             })
