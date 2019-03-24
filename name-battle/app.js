@@ -16,9 +16,34 @@ async function getRealName(id) {
   return userResponse.data.user.profile.real_name
 }
 
+function getResponse(attackerId, targetId, attackerName, targetName, lifeForce) {
+  const lines = [
+    `<@${attackerId}> challenges <@${targetId}> to a Name Battle! :collision:`,
+      `_${attackerName}_ attacks _${targetName}_ in a parallel universe...`,
+  ]
+  const fixedLifeForce = lifeForce.toFixed(2)
+  let adjectives
+  if (lifeForce >= 80) {
+    lines.push(`${targetName} is barely affected, with *${fixedLifeForce}%* life force remaining!`)
+    adjectives = ['A paltry', 'A pitiful', 'A weak', 'A pathetic', 'A useless', 'An insignificant', 'An inconsequential']
+  } else if (lifeForce >= 50) {
+    lines.push(`${targetName} is wounded, with *${fixedLifeForce}%* life force remaining!`)
+    adjectives = ['A worrying', 'A concerning', 'An inflammatory', 'A pathetic', 'A bothersome', 'A disquieting', 'An agitating']
+  } else if (lifeForce > 0) {
+    lines.push(`${targetName} is critically injured, with *${fixedLifeForce}%* life force remaining!`)
+    adjectives = ['A destructive', 'A vicious', 'A merciless', 'A cruel', 'A ferocious', 'A ruthless', 'A fiendish']
+  } else {
+    lines.push(`${targetName} is dead, with *0%* life force remaining!`)
+    adjectives = ['A devastating', 'A catastrophic', 'An apocalyptic', 'A calamitous', 'A cataclysmic', 'A ruinous', 'A dire']
+  }
+  lines.push(`${adjectives[Math.floor(Math.random() * adjectives.length)]} attack!`)
+  return lines.join('\n')
+}
+
 exports.lambdaHandler = async (event, context) => {
     let response
     let targetUserId
+    let attackerUserId
 
     try {
         const parameters = new URLSearchParams(event.body)
@@ -29,6 +54,8 @@ exports.lambdaHandler = async (event, context) => {
             .split('|')[0]
             .replace(/[<@]/g, '')
 
+        attackerUserId = parameters.get('user_id')
+
         const [attacker, target] = await Promise.all([
             getRealName(parameters.get('user_id')),
             getRealName(targetUserId)
@@ -38,11 +65,7 @@ exports.lambdaHandler = async (event, context) => {
             statusCode: 200,
             body: JSON.stringify({
                 response_type: 'in_channel',
-                text: JSON.stringify({
-                    attacker,
-                    target,
-                  lifeForce: nameBattle({ attacker, target }),
-                })
+                text: getResponse(attackerUserId, targetUserId, attacker, target, nameBattle({ attacker, target }))
             })
         }
     } catch (err) {
