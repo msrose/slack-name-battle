@@ -18,25 +18,29 @@ async function getRealName(id) {
 
 function getResponse(attackerId, targetId, attackerName, targetName, lifeForce) {
   const lines = [
-    `<@${attackerId}> challenges <@${targetId}> to a Name Battle! :collision:`,
-      `_${attackerName}_ attacks _${targetName}_ in a parallel universe...`,
+    `<@${attackerId}> challenges <@${targetId}> to a Name Battle! :collision: _${attackerName}_ attacks _${targetName}_ in a parallel universe...`,
   ]
   const fixedLifeForce = lifeForce.toFixed(2)
   let adjectives
+  let emojis
   if (lifeForce >= 80) {
     lines.push(`${targetName} is barely affected, with *${fixedLifeForce}%* life force remaining!`)
     adjectives = ['A paltry', 'A pitiful', 'A weak', 'A pathetic', 'A useless', 'An insignificant', 'An inconsequential']
+    emojis = [':joy:', ':feelsgoodman:', ':pogchamp:', ':partyparrot:', ':laughing:', ':ghost:']
   } else if (lifeForce >= 50) {
     lines.push(`${targetName} is wounded, with *${fixedLifeForce}%* life force remaining!`)
     adjectives = ['A worrying', 'A concerning', 'An inflammatory', 'A pathetic', 'A bothersome', 'A disquieting', 'An agitating']
+    emojis = [':gun:', ':rage:', ':angry:', ':sad_parrot:', ':cry:', ':sob:', ':crying_cat_face:', ':feelsbadman:', ':biblethump:']
   } else if (lifeForce > 0) {
     lines.push(`${targetName} is critically injured, with *${fixedLifeForce}%* life force remaining!`)
     adjectives = ['A destructive', 'A vicious', 'A merciless', 'A cruel', 'A ferocious', 'A ruthless', 'A fiendish']
+    emojis = [':face_with_head_bandage:', ':hospital:', ':knife:', ':dagger_knife:', ':crossed_swords:', ':hammer:', ':syringe:']
   } else {
     lines.push(`${targetName} is dead, with *0%* life force remaining!`)
     adjectives = ['A devastating', 'A catastrophic', 'An apocalyptic', 'A calamitous', 'A cataclysmic', 'A ruinous', 'A dire']
+    emojis = [':skull:', ':skull_and_crossbones:', ':coffin:', ':funeral_urn']
   }
-  lines.push(`${adjectives[Math.floor(Math.random() * adjectives.length)]} attack!`)
+  lines[lines.length - 1] += ` ${adjectives[Math.floor(Math.random() * adjectives.length)]} attack! ${emojis[Math.floor(Math.random() * emojis.length)]}`
   return lines.join('\n')
 }
 
