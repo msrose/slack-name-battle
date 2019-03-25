@@ -2,5 +2,7 @@ language: node_js
 node_js:
   - "8.10"
 script:
-  - cd name-battle && npm run lint && cd -
-  - cd name-battle && npm test -- --coverage && cd -
+  - cd name-battle
+  - npm install
+  - npm run lint
+  - npm test -- --coverage
