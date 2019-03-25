@@ -1,0 +1,25 @@
+{
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "contributors": [
+    {
+      "login": "msrose",
+      "name": "Michael Rose",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/3495264?v=4",
+      "profile": "http://msrose.github.io",
+      "contributions": [
+        "code",
+        "doc",
+        "infra"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "projectName": "slack-name-battle",
+  "projectOwner": "msrose",
+  "repoType": "github",
+  "repoHost": "https://github.com"
+}
