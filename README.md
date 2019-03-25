@@ -1,5 +1,7 @@
 # slack-name-battle
 
+[![Build Status](https://travis-ci.org/msrose/slack-name-battle.svg?branch=master)](https://travis-ci.org/msrose/slack-name-battle)
+
 Created using the AWS SAM CLI. See [SAM.md](./SAM.md) for more details.
 
 ## Setup
