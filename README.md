@@ -1,6 +1,8 @@
 # slack-name-battle
 
-[![Build Status](https://travis-ci.org/msrose/slack-name-battle.svg?branch=master)](https://travis-ci.org/msrose/slack-name-battle) [![Greenkeeper badge](https://badges.greenkeeper.io/msrose/slack-name-battle.svg)](https://greenkeeper.io/)
+[![Build Status](https://travis-ci.org/msrose/slack-name-battle.svg?branch=master)](https://travis-ci.org/msrose/slack-name-battle) 
+[![Greenkeeper badge](https://badges.greenkeeper.io/msrose/slack-name-battle.svg)](https://greenkeeper.io/)
+[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors)
 
 Created using the AWS SAM CLI. See [SAM.md](./SAM.md) for more details.
 
@@ -17,3 +19,15 @@ Created using the AWS SAM CLI. See [SAM.md](./SAM.md) for more details.
 1. Update your Slack app to add a slash command which posts to the API Gateway URL. For example, call it `/name-battle`. The endpoint assumes that the first word given to the slash command is the @handle of the user who will be the target of the battle.
     - NB: You'll have to "reinstall" the Slack app after adding the slash command
 1. Battle! `/name-battle @my-enemy` and watch them weep.
+
+## Contributors
+
+Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
+
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore -->
+<table><tr><td align="center"><a href="http://msrose.github.io"><img src="https://avatars3.githubusercontent.com/u/3495264?v=4" width="100px;" alt="Michael Rose"/><br /><sub><b>Michael Rose</b></sub></a><br /><a href="https://github.com/msrose/slack-name-battle/commits?author=msrose" title="Code">💻</a> <a href="https://github.com/msrose/slack-name-battle/commits?author=msrose" title="Documentation">📖</a> <a href="#infra-msrose" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a></td></tr></table>
+
+<!-- ALL-CONTRIBUTORS-LIST:END -->
+
+This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
