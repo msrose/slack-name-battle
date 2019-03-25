@@ -1,20 +1,22 @@
 {
-  "name": "hello_world",
+  "name": "slack-name-battle",
   "version": "1.0.0",
-  "description": "hello world sample for NodeJS",
-  "main": "app.js",
-  "repository": "https://github.com/awslabs/aws-sam-cli/tree/develop/samcli/local/init/templates/cookiecutter-aws-sam-hello-nodejs",
-  "author": "SAM CLI",
   "license": "MIT",
   "dependencies": {
     "axios": "^0.18.0",
     "name-battle": "^1.0.1"
   },
   "scripts": {
-    "test": "mocha tests/unit/"
+    "test": "jest",
+    "lint": "eslint ."
   },
   "devDependencies": {
-    "chai": "^4.1.2",
-    "mocha": "^5.1.1"
+    "@tophat/eslint-config": "^0.1.4",
+    "eslint": "^5.15.3",
+    "eslint-config-prettier": "^4.1.0",
+    "eslint-plugin-jest": "^22.4.1",
+    "eslint-plugin-prettier": "^3.0.1",
+    "jest": "^24.5.0",
+    "prettier": "^1.16.4"
   }
 }

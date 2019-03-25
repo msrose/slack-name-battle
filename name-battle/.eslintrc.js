@@ -1,0 +1,6 @@
+module.exports = {
+  extends: ['@tophat', '@tophat/eslint-config/jest'],
+  rules: {
+      'no-console': 'off',
+  }
+}
