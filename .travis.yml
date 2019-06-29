@@ -3,7 +3,7 @@ node_js:
   - "8.10"
 script:
   - cd name-battle
-  - npm ci
+  - npm install
   - cd -
   - npm run lint
   - npm test -- --coverage
