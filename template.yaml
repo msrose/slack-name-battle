@@ -11,6 +11,8 @@ Globals:
 Parameters:
   SlackTokenParameter:
     Type: String
+  SlackSigningSecretParameter:
+    Type: String
 
 Resources:
   NameBattleFunction:
@@ -22,6 +24,7 @@ Resources:
       Environment:
         Variables:
           SLACK_TOKEN: !Ref SlackTokenParameter
+          SLACK_SIGNING_SECRET: !Ref SlackSigningSecretParameter
       Events:
         NameBattle:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api

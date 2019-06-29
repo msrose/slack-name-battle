@@ -1,6 +1,7 @@
 const axios = require('axios')
 const nameBattle = require('name-battle')
 const config = require('./config')
+const crypto = require('crypto')
 
 const { URLSearchParams } = require('url')
 
@@ -49,6 +50,15 @@ function getResponse(
     return lines.join('\n')
 }
 
+exports.getSignature = (timestamp, body) => {
+    const basestring = `v0:${timestamp}:${body}`
+    const signature = `v0=${crypto
+        .createHmac('sha256', process.env.SLACK_SIGNING_SECRET)
+        .update(basestring)
+        .digest('hex')}`
+    return signature
+}
+
 // eslint-disable-next-line no-unused-vars
 exports.lambdaHandler = async (event, context) => {
     let response
@@ -56,6 +66,20 @@ exports.lambdaHandler = async (event, context) => {
     let attackerUserId
 
     try {
+        const slackRequestTimestamp = event.headers['X-Slack-Request-Timestamp']
+        const signature = exports.getSignature(
+            slackRequestTimestamp,
+            event.body,
+        )
+        if (
+            !crypto.timingSafeEqual(
+                Buffer.from(signature),
+                Buffer.from(event.headers['X-Slack-Signature']),
+            )
+        ) {
+            throw new Error('Forbidden: signature mismatch')
+        }
+
         const parameters = new URLSearchParams(event.body)
 
         targetUserId = parameters

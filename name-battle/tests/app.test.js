@@ -16,7 +16,10 @@ mock.onGet(/https:\/\/slack.com\/api\/users.info/).reply(config => [
     },
 ])
 
-const { lambdaHandler } = require('../app')
+const { lambdaHandler, getSignature } = require('../app')
+
+process.env.SLACK_SIGNING_SECRET = 'wowowow'
+process.env.SLACK_TOKEN = 'moremore'
 
 describe('Slack name battle', () => {
     it.each([
@@ -25,8 +28,14 @@ describe('Slack name battle', () => {
         ['aaaaa', 'a'],
         ['aaaaa', 'aa'],
     ])('conducts a name battle between %s and %s', async (target, attacker) => {
+        const body = `text=${target}&user_id=${attacker}`
+        const timestamp = 1231251
         const result = await lambdaHandler({
-            body: `text=${target}&user_id=${attacker}`,
+            body,
+            headers: {
+                'X-Slack-Request-Timestamp': timestamp,
+                'X-Slack-Signature': getSignature(timestamp, body),
+            },
         })
         expect(result.statusCode).toBe(200)
         expect(JSON.parse(result.body)).toMatchSnapshot()
