@@ -1,23 +1,13 @@
 {
-  "name": "slack-name-battle",
+  "name": "name-battle-function",
   "version": "1.0.0",
+  "private": true,
   "license": "MIT",
   "dependencies": {
     "axios": "^0.19.0",
     "name-battle": "^1.0.1"
   },
-  "scripts": {
-    "test": "jest",
-    "lint": "eslint ."
-  },
   "devDependencies": {
-    "@tophat/eslint-config": "^0.1.4",
-    "axios-mock-adapter": "^1.16.0",
-    "eslint": "^6.0.1",
-    "eslint-config-prettier": "^6.0.0",
-    "eslint-plugin-jest": "^22.7.1",
-    "eslint-plugin-prettier": "^3.0.1",
-    "jest": "^24.8.0",
-    "prettier": "^1.16.4"
+    "axios-mock-adapter": "^1.16.0"
   }
 }

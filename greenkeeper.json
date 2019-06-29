@@ -2,7 +2,8 @@
   "groups": {
     "default": {
       "packages": [
-        "name-battle/package.json"
+        "name-battle/package.json",
+        "package.json"
       ]
     }
   }
