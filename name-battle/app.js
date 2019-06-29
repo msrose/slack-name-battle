@@ -1,5 +1,6 @@
 const axios = require('axios')
 const nameBattle = require('name-battle')
+const config = require('./config')
 
 const { URLSearchParams } = require('url')
 
@@ -32,92 +33,15 @@ function getResponse(
         `<@${attackerId}> challenges <@${targetId}> to a Name Battle! :collision: *_${attackerName}_* attacks *_${targetName}_* in a parallel universe...`,
     ]
     const fixedLifeForce = lifeForce.toFixed(2)
-    let adjectives
-    let emojis
-    if (lifeForce >= 80) {
-        lines.push(
-            `${targetName} is barely affected, with *${fixedLifeForce}%* life force remaining!`,
-        )
-        adjectives = [
-            'A paltry',
-            'A pitiful',
-            'A weak',
-            'A pathetic',
-            'A useless',
-            'An insignificant',
-            'An inconsequential',
-        ]
-        emojis = [
-            ':joy:',
-            ':feelsgoodman:',
-            ':pogchamp:',
-            ':partyparrot:',
-            ':laughing:',
-            ':ghost:',
-        ]
-    } else if (lifeForce >= 50) {
-        lines.push(
-            `${targetName} is wounded, with *${fixedLifeForce}%* life force remaining!`,
-        )
-        adjectives = [
-            'A worrying',
-            'A concerning',
-            'An inflammatory',
-            'A potent',
-            'A bothersome',
-            'A disquieting',
-            'An agitating',
-        ]
-        emojis = [
-            ':gun:',
-            ':rage:',
-            ':angry:',
-            ':sad_parrot:',
-            ':cry:',
-            ':sob:',
-            ':crying_cat_face:',
-            ':feelsbadman:',
-            ':biblethump:',
-        ]
-    } else if (lifeForce > 0) {
-        lines.push(
-            `${targetName} is critically injured, with *${fixedLifeForce}%* life force remaining!`,
-        )
-        adjectives = [
-            'A destructive',
-            'A vicious',
-            'A merciless',
-            'A cruel',
-            'A ferocious',
-            'A ruthless',
-            'A fiendish',
-        ]
-        emojis = [
-            ':face_with_head_bandage:',
-            ':hospital:',
-            ':knife:',
-            ':dagger_knife:',
-            ':crossed_swords:',
-            ':hammer:',
-            ':syringe:',
-        ]
-    } else {
-        lines.push(`${targetName} is dead, with *0%* life force remaining!`)
-        adjectives = [
-            'A devastating',
-            'A catastrophic',
-            'An apocalyptic',
-            'A calamitous',
-            'A cataclysmic',
-            'A ruinous',
-            'A dire',
-        ]
-        emojis = [
-            ':skull:',
-            ':skull_and_crossbones:',
-            ':coffin:',
-            ':funeral_urn:',
-        ]
+    let adjectives = []
+    let emojis = []
+    for (const messageConfig of config.messages) {
+        if (messageConfig.test(lifeForce)) {
+            adjectives = messageConfig.adjectives
+            emojis = messageConfig.emojis
+            lines.push(messageConfig.format(targetName, fixedLifeForce))
+            break
+        }
     }
     const adjective = adjectives[getRandomNumber(adjectives.length)]
     const emoji = emojis[getRandomNumber(emojis.length)]

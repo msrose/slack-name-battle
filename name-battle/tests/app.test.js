@@ -18,10 +18,15 @@ mock.onGet(/https:\/\/slack.com\/api\/users.info/).reply(config => [
 
 const { lambdaHandler } = require('../app')
 
-describe('Slack name battle', function() {
-    it('conducts a name battle', async () => {
+describe('Slack name battle', () => {
+    it.each([
+        ['target', 'attacker'],
+        ['michael', 'michael'],
+        ['aaaaa', 'a'],
+        ['aaaaa', 'aa'],
+    ])('conducts a name battle between %s and %s', async (target, attacker) => {
         const result = await lambdaHandler({
-            body: 'text=target&user_id=attacker',
+            body: `text=${target}&user_id=${attacker}`,
         })
         expect(result.statusCode).toBe(200)
         expect(JSON.parse(result.body)).toMatchSnapshot()

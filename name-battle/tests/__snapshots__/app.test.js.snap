@@ -1,6 +1,30 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Slack name battle conducts a name battle 1`] = `
+exports[`Slack name battle conducts a name battle between aaaaa and a 1`] = `
+Object {
+  "response_type": "in_channel",
+  "text": "<@a> challenges <@aaaaa> to a Name Battle! :collision: *_a_* attacks *_aaaaa_* in a parallel universe...
+aaaaa is barely affected, with *80.00%* life force remaining! A paltry attack! :joy:",
+}
+`;
+
+exports[`Slack name battle conducts a name battle between aaaaa and aa 1`] = `
+Object {
+  "response_type": "in_channel",
+  "text": "<@aa> challenges <@aaaaa> to a Name Battle! :collision: *_aa_* attacks *_aaaaa_* in a parallel universe...
+aaaaa is wounded, with *60.00%* life force remaining! A worrying attack! :gun:",
+}
+`;
+
+exports[`Slack name battle conducts a name battle between michael and michael 1`] = `
+Object {
+  "response_type": "in_channel",
+  "text": "<@michael> challenges <@michael> to a Name Battle! :collision: *_michael_* attacks *_michael_* in a parallel universe...
+michael is dead, with *0%* life force remaining! A devastating attack! :skull:",
+}
+`;
+
+exports[`Slack name battle conducts a name battle between target and attacker 1`] = `
 Object {
   "response_type": "in_channel",
   "text": "<@attacker> challenges <@target> to a Name Battle! :collision: *_attacker_* attacks *_target_* in a parallel universe...
