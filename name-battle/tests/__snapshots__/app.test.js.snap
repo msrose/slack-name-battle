@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Slack name battle conducts a name battle 1`] = `
+Object {
+  "response_type": "in_channel",
+  "text": "<@attacker> challenges <@target> to a Name Battle! :collision: *_attacker_* attacks *_target_* in a parallel universe...
+target is critically injured, with *16.67%* life force remaining! A destructive attack! :face_with_head_bandage:",
+}
+`;

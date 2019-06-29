@@ -1,5 +1,6 @@
 const axios = require('axios')
 const MockAdapter = require('axios-mock-adapter')
+const { URL } = require('url')
 
 const mock = new MockAdapter(axios)
 
@@ -8,7 +9,9 @@ mock.onGet(/https:\/\/slack.com\/api\/users.info/).reply(config => [
     {
         ok: true,
         user: {
-            profile: { real_name: config.url.split('?')[1].split('=')[1] },
+            profile: {
+                real_name: new URL(config.url).searchParams.get('user'),
+            },
         },
     },
 ])
@@ -21,5 +24,6 @@ describe('Slack name battle', function() {
             body: 'text=target&user_id=attacker',
         })
         expect(result.statusCode).toBe(200)
+        expect(JSON.parse(result.body)).toMatchSnapshot()
     })
 })

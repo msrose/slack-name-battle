@@ -3,6 +3,11 @@ const nameBattle = require('name-battle')
 
 const { URLSearchParams } = require('url')
 
+function getRandomNumber(max) {
+    if (process.env.NODE_ENV === 'test') return 0
+    return Math.floor(Math.random() * max)
+}
+
 async function getRealName(id) {
     const userResponse = await axios.get(
         `https://slack.com/api/users.info?user=${id}`,
@@ -114,9 +119,9 @@ function getResponse(
             ':funeral_urn:',
         ]
     }
-    lines[lines.length - 1] += ` ${
-        adjectives[Math.floor(Math.random() * adjectives.length)]
-    } attack! ${emojis[Math.floor(Math.random() * emojis.length)]}`
+    const adjective = adjectives[getRandomNumber(adjectives.length)]
+    const emoji = emojis[getRandomNumber(emojis.length)]
+    lines[lines.length - 1] += ` ${adjective} attack! ${emoji}`
     return lines.join('\n')
 }
 
