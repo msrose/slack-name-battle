@@ -10,11 +10,14 @@ Created using the AWS SAM CLI. See [SAM.md](./SAM.md) for more details.
 ## Local Development
 
 1. Clone the repo
+1. Make sure you're using Node.js 8.10: `nvm use` (you can install nvm [here](http://nvm.sh))
+1. Install dependencies: `npm install && cd name-battle && npm install && cd -`
+1. Make sure all the tests and linting pass: `npm test && npm run lint`
 1. Make sure you have installed and configured the [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html), and installed the [AWS SAM CLI](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-sam-cli-install.html)
-  - The SAM CLI will require you to install Docker as well, which is also needed for running local DynamoDB.
+    - The SAM CLI will require you to install Docker as well, which is also needed for running local DynamoDB.
 1. Run `bash local.sh`. This script starts local API Gateway on port 3000 and local DynamoDB on port 8000.
 1. You can now conduct Name Battles by sending a POST request to http://localhost:3000/name-battle, with the request body `text=targetname&user_id=attackername`.
-  - Local development is configured to skip Slack signature verification, and it will not hit the Slack API.
+    - Local development is configured to skip Slack signature verification, and it will not hit the Slack API.
 
 ## Deployment
 
