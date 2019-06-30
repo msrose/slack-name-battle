@@ -70,7 +70,7 @@ exports.messages = [
         ],
     },
     {
-        test: value => value === 0,
+        test: value => value <= 0,
         format: targetName =>
             `${targetName} is dead, with *0%* life force remaining!`,
         adjectives: [

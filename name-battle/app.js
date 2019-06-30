@@ -2,6 +2,7 @@ const axios = require('axios')
 const nameBattle = require('name-battle')
 const config = require('./config')
 const crypto = require('crypto')
+const { getTotalDebuffs, putDebuff } = require('./debuffs')
 
 const { URLSearchParams } = require('url')
 
@@ -11,6 +12,7 @@ function getRandomNumber(max) {
 }
 
 async function getRealName(id) {
+    if (process.env.AWS_SAM_LOCAL) return id
     const userResponse = await axios.get(
         `https://slack.com/api/users.info?user=${id}`,
         {
@@ -72,6 +74,7 @@ exports.lambdaHandler = async (event, context) => {
             event.body,
         )
         if (
+            !process.env.AWS_SAM_LOCAL &&
             !crypto.timingSafeEqual(
                 Buffer.from(signature),
                 Buffer.from(event.headers['X-Slack-Signature']),
@@ -90,10 +93,27 @@ exports.lambdaHandler = async (event, context) => {
 
         attackerUserId = parameters.get('user_id')
 
-        const [attacker, target] = await Promise.all([
-            getRealName(parameters.get('user_id')),
+        const attackerDebuffs = await getTotalDebuffs(attackerUserId)
+
+        if (attackerDebuffs >= 100) {
+            throw new Error("You can't Name Battle: you're dead!")
+        }
+
+        const [attacker, target, targetDebuffs] = await Promise.all([
+            getRealName(attackerUserId),
             getRealName(targetUserId),
+            getTotalDebuffs(targetUserId),
         ])
+
+        const lifeForce = nameBattle({ attacker, target })
+
+        const newLifeForce = lifeForce - targetDebuffs
+
+        if (newLifeForce > 0 || newLifeForce + (100 - lifeForce) > 0) {
+            await putDebuff(targetUserId, 100 - lifeForce)
+        } else {
+            throw new Error('Target is already dead!')
+        }
 
         response = {
             statusCode: 200,
@@ -104,7 +124,7 @@ exports.lambdaHandler = async (event, context) => {
                     targetUserId,
                     attacker,
                     target,
-                    nameBattle({ attacker, target }),
+                    newLifeForce,
                 ),
             }),
         }
@@ -116,6 +136,11 @@ exports.lambdaHandler = async (event, context) => {
 
         if (errorMessage === 'user_not_found') {
             errorMessage = `${targetUserId} is not a valid user`
+            statusCode = 200
+        } else if (
+            errorMessage === "You can't Name Battle: you're dead!" ||
+            errorMessage === 'Target is already dead!'
+        ) {
             statusCode = 200
         }
 

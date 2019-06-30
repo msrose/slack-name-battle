@@ -21,6 +21,11 @@ const { lambdaHandler, getSignature } = require('../app')
 process.env.SLACK_SIGNING_SECRET = 'wowowow'
 process.env.SLACK_TOKEN = 'moremore'
 
+jest.mock('../debuffs', () => ({
+    getTotalDebuffs: () => 0,
+    putDebuff: () => {},
+}))
+
 describe('Slack name battle', () => {
     it.each([
         ['target', 'attacker'],

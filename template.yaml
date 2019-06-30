@@ -15,6 +15,25 @@ Parameters:
     Type: String
 
 Resources:
+  NameBattleTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      KeySchema:
+        - AttributeName: slack_id
+          KeyType: HASH
+        - AttributeName: timestamp
+          KeyType: RANGE
+      AttributeDefinitions:
+        - AttributeName: slack_id
+          AttributeType: S
+        - AttributeName: timestamp
+          AttributeType: N
+      ProvisionedThroughput:
+        ReadCapacityUnits: 5
+        WriteCapacityUnits: 5
+      TimeToLiveSpecification:
+        Enabled: true
+        AttributeName: timestamp
   NameBattleFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
@@ -25,12 +44,16 @@ Resources:
         Variables:
           SLACK_TOKEN: !Ref SlackTokenParameter
           SLACK_SIGNING_SECRET: !Ref SlackSigningSecretParameter
+          NAME_BATTLE_TABLE_NAME: !Ref NameBattleTable
       Events:
         NameBattle:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
           Properties:
             Path: /name-battle
             Method: post
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref NameBattleTable
 
 Outputs:
   # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
@@ -45,3 +68,6 @@ Outputs:
   NameBattleFunctionIamRole:
     Description: "Implicit IAM Role created for Name Battle function"
     Value: !GetAtt NameBattleFunctionRole.Arn
+  NameBattleTable:
+    Description: "DynamoDB table for Name Battles"
+    Value: !GetAtt NameBattleTable.Arn
