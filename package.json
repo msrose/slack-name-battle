@@ -16,5 +16,11 @@
     "eslint-plugin-prettier": "^3.1.0",
     "jest": "^24.8.0",
     "prettier": "^1.18.2"
+  },
+  "jest": {
+    "collectCoverageFrom": [
+      "**/*.js",
+      "!**/coverage/**"
+    ]
   }
 }
