@@ -3,13 +3,9 @@ const nameBattle = require('name-battle')
 const config = require('./config')
 const crypto = require('crypto')
 const { getTotalDebuffs, putDebuff } = require('./debuffs')
+const { getRandomNumber } = require('./utils')
 
 const { URLSearchParams } = require('url')
-
-function getRandomNumber(max) {
-    if (process.env.NODE_ENV === 'test') return 0
-    return Math.floor(Math.random() * max)
-}
 
 async function getRealName(id) {
     if (process.env.AWS_SAM_LOCAL) return id

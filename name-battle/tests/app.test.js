@@ -26,6 +26,10 @@ jest.mock('../dynamodb', () => ({
     putDocumentBySlackId: () => {},
 }))
 
+jest.mock('../utils', () => ({
+    getRandomNumber: () => 0,
+}))
+
 describe('Slack name battle', () => {
     it.each([
         ['target', 'attacker'],
