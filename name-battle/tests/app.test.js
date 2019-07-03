@@ -16,7 +16,8 @@ mock.onGet(/https:\/\/slack.com\/api\/users.info/).reply(config => [
     },
 ])
 
-const { lambdaHandler, getSignature } = require('../app')
+const { lambdaHandler } = require('../app')
+const { getSignature } = require('../utils')
 
 process.env.SLACK_SIGNING_SECRET = 'wowowow'
 process.env.SLACK_TOKEN = 'moremore'
@@ -26,9 +27,11 @@ jest.mock('../dynamodb', () => ({
     putDocumentBySlackId: () => {},
 }))
 
-jest.mock('../utils', () => ({
-    getRandomNumber: () => 0,
-}))
+jest.mock('../utils', () => {
+    const utils = jest.requireActual('../utils')
+    utils.getRandomNumber = () => 0
+    return utils
+})
 
 describe('Slack name battle', () => {
     it.each([

@@ -1,11 +1,10 @@
-const crypto = require('crypto')
 const { URLSearchParams } = require('url')
 
 const nameBattle = require('name-battle')
 
 const config = require('./config')
 const { getTotalDebuffs, putDebuff } = require('./debuffs')
-const { getRandomNumber } = require('./utils')
+const { getRandomNumber, isRequestSignatureValid } = require('./utils')
 const { getRealName } = require('./slack')
 
 function getResponse(
@@ -35,32 +34,17 @@ function getResponse(
     return lines.join('\n')
 }
 
-exports.getSignature = (timestamp, body) => {
-    const basestring = `v0:${timestamp}:${body}`
-    const signature = `v0=${crypto
-        .createHmac('sha256', process.env.SLACK_SIGNING_SECRET)
-        .update(basestring)
-        .digest('hex')}`
-    return signature
-}
-
 exports.lambdaHandler = async event => {
     let response
     let targetUserId
     let attackerUserId
 
     try {
-        const slackRequestTimestamp = event.headers['X-Slack-Request-Timestamp']
-        const signature = exports.getSignature(
-            slackRequestTimestamp,
-            event.body,
-        )
+        const timestamp = event.headers['X-Slack-Request-Timestamp']
+        const signature = event.headers['X-Slack-Signature']
         if (
             !process.env.AWS_SAM_LOCAL &&
-            !crypto.timingSafeEqual(
-                Buffer.from(signature),
-                Buffer.from(event.headers['X-Slack-Signature']),
-            )
+            !isRequestSignatureValid(timestamp, event.body, signature)
         ) {
             throw new Error('Forbidden: signature mismatch')
         }
