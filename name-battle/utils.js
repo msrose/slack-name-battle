@@ -21,6 +21,11 @@ function isRequestSignatureValid(timestamp, body, requestSignature) {
     )
 }
 
+function logError(err) {
+    console.log(err)
+}
+
 exports.getRandomNumber = getRandomNumber
 exports.getSignature = getSignature
 exports.isRequestSignatureValid = isRequestSignatureValid
+exports.logError = logError

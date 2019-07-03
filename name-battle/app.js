@@ -4,7 +4,11 @@ const nameBattle = require('name-battle')
 
 const config = require('./config')
 const { getTotalDebuffs, putDebuff } = require('./debuffs')
-const { getRandomNumber, isRequestSignatureValid } = require('./utils')
+const {
+    getRandomNumber,
+    isRequestSignatureValid,
+    logError,
+} = require('./utils')
 const { getRealName } = require('./slack')
 
 function getResponse(
@@ -95,7 +99,7 @@ exports.lambdaHandler = async event => {
             }),
         }
     } catch (err) {
-        console.log(err)
+        logError(err)
 
         let errorMessage = err.message
         let statusCode = 400

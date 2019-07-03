@@ -1,3 +1,15 @@
+jest.mock('../dynamodb', () => ({
+    getDocumentsBySlackId: jest.fn(() => ({ Items: [] })),
+    putDocumentBySlackId: () => {},
+}))
+
+jest.mock('../utils', () => {
+    const utils = jest.requireActual('../utils')
+    utils.getRandomNumber = () => 0
+    utils.logError = () => {}
+    return utils
+})
+
 const axios = require('axios')
 const MockAdapter = require('axios-mock-adapter')
 const { URL } = require('url')
@@ -18,20 +30,10 @@ mock.onGet(/https:\/\/slack.com\/api\/users.info/).reply(config => [
 
 const { lambdaHandler } = require('../app')
 const { getSignature } = require('../utils')
+const { getDocumentsBySlackId } = require('../dynamodb')
 
 process.env.SLACK_SIGNING_SECRET = 'wowowow'
 process.env.SLACK_TOKEN = 'moremore'
-
-jest.mock('../dynamodb', () => ({
-    getDocumentsBySlackId: () => ({ Items: [] }),
-    putDocumentBySlackId: () => {},
-}))
-
-jest.mock('../utils', () => {
-    const utils = jest.requireActual('../utils')
-    utils.getRandomNumber = () => 0
-    return utils
-})
 
 describe('Slack name battle', () => {
     it.each([
@@ -41,6 +43,55 @@ describe('Slack name battle', () => {
         ['aaaaa', 'aa'],
     ])('conducts a name battle between %s and %s', async (target, attacker) => {
         const body = `text=${target}&user_id=${attacker}`
+        const timestamp = 1231251
+        const result = await lambdaHandler({
+            body,
+            headers: {
+                'X-Slack-Request-Timestamp': timestamp,
+                'X-Slack-Signature': getSignature(timestamp, body),
+            },
+        })
+        expect(result.statusCode).toBe(200)
+        expect(JSON.parse(result.body)).toMatchSnapshot()
+    })
+
+    it('sends an error when there is a signature mismatch', async () => {
+        const body = `text=target&user_id=attacker`
+        const timestamp = 141251513
+        const signature = getSignature(timestamp, body)
+        const result = await lambdaHandler({
+            body,
+            headers: {
+                'X-Slack-Request-Timestamp': timestamp,
+                'X-Slack-Signature': 'a'.repeat(signature.length),
+            },
+        })
+        expect(result.statusCode).toBe(400)
+        expect(JSON.parse(result.body)).toMatchSnapshot()
+    })
+
+    it('sends an error message if the attacker is dead', async () => {
+        getDocumentsBySlackId.mockImplementation(() => ({
+            Items: [{ lifeForce: 100 }],
+        }))
+        const body = `text=target&user_id=attacker`
+        const timestamp = 1231251
+        const result = await lambdaHandler({
+            body,
+            headers: {
+                'X-Slack-Request-Timestamp': timestamp,
+                'X-Slack-Signature': getSignature(timestamp, body),
+            },
+        })
+        expect(result.statusCode).toBe(200)
+        expect(JSON.parse(result.body)).toMatchSnapshot()
+    })
+
+    it('sends an error message if the target is dead', async () => {
+        getDocumentsBySlackId.mockImplementation(id => ({
+            Items: id === 'target' ? [{ lifeForce: 100 }] : [],
+        }))
+        const body = `text=target&user_id=attacker`
         const timestamp = 1231251
         const result = await lambdaHandler({
             body,

@@ -31,3 +31,21 @@ Object {
 target is critically injured, with *16.67%* life force remaining! A destructive attack! :face_with_head_bandage:",
 }
 `;
+
+exports[`Slack name battle sends an error message if the attacker is dead 1`] = `
+Object {
+  "text": "Could not conduct Name Battle! Error: You can't Name Battle: you're dead!.",
+}
+`;
+
+exports[`Slack name battle sends an error message if the target is dead 1`] = `
+Object {
+  "text": "Could not conduct Name Battle! Error: Target is already dead!.",
+}
+`;
+
+exports[`Slack name battle sends an error when there is a signature mismatch 1`] = `
+Object {
+  "text": "Could not conduct Name Battle! Error: Forbidden: signature mismatch.",
+}
+`;
