@@ -61,8 +61,7 @@ exports.getSignature = (timestamp, body) => {
     return signature
 }
 
-// eslint-disable-next-line no-unused-vars
-exports.lambdaHandler = async (event, context) => {
+exports.lambdaHandler = async event => {
     let response
     let targetUserId
     let attackerUserId

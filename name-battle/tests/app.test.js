@@ -21,9 +21,9 @@ const { lambdaHandler, getSignature } = require('../app')
 process.env.SLACK_SIGNING_SECRET = 'wowowow'
 process.env.SLACK_TOKEN = 'moremore'
 
-jest.mock('../debuffs', () => ({
-    getTotalDebuffs: () => 0,
-    putDebuff: () => {},
+jest.mock('../dynamodb', () => ({
+    getDocumentsBySlackId: () => ({ Items: [] }),
+    putDocumentBySlackId: () => {},
 }))
 
 describe('Slack name battle', () => {
