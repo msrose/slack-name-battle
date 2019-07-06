@@ -32,6 +32,14 @@ target is critically injured, with *16.67%* life force remaining! A destructive 
 }
 `;
 
+exports[`Slack name battle kills the attacker if they change their name 1`] = `
+Object {
+  "response_type": "in_channel",
+  "text": "<@attacker> challenges <@target> to a Name Battle! :collision: *_attacker_* attacks *_target_* in a parallel universe...
+:redsiren: attacker changed their name! For shame! target is unaffected, and attacker dies instead! :redsiren:",
+}
+`;
+
 exports[`Slack name battle sends an error message if the attacker is dead 1`] = `
 Object {
   "text": "Could not conduct Name Battle! Error: You can't Name Battle: you're dead!.",

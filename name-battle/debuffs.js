@@ -1,18 +1,21 @@
-const { getDocumentsBySlackId, putDocumentBySlackId } = require('./dynamodb')
+const {
+    getBattleDocumentsBySlackId,
+    putBattleDocumentBySlackId,
+} = require('./dynamodb')
 
 async function getTotalDebuffs(id) {
-    const debuffs = await getDocumentsBySlackId(id)
+    const debuffs = await getBattleDocumentsBySlackId(id)
     return debuffs.Items.reduce(
         (total, { lifeForce: debuffForce }) => total + debuffForce,
         0,
     )
 }
 
-function putDebuff(id, value) {
-    return putDocumentBySlackId(
+function putDebuff(id, value, duration = 5) {
+    return putBattleDocumentBySlackId(
         id,
         value,
-        Math.floor(Date.now() / 1000) + 5 * 60,
+        Math.floor(Date.now() / 1000) + duration * 60,
     )
 }
 

@@ -1,6 +1,8 @@
 jest.mock('../dynamodb', () => ({
-    getDocumentsBySlackId: jest.fn(() => ({ Items: [] })),
-    putDocumentBySlackId: () => {},
+    getBattleDocumentsBySlackId: jest.fn(() => ({ Items: [] })),
+    putBattleDocumentBySlackId: () => {},
+    getMetadataDocumentBySlackId: jest.fn(() => ({ Item: undefined })),
+    updateMetadataDocumentBySlackId: () => {},
 }))
 
 jest.mock('../utils', () => {
@@ -30,10 +32,27 @@ mock.onGet(/https:\/\/slack.com\/api\/users.info/).reply(config => [
 
 const { lambdaHandler } = require('../app')
 const { getSignature } = require('../utils')
-const { getDocumentsBySlackId } = require('../dynamodb')
+const {
+    getBattleDocumentsBySlackId,
+    getMetadataDocumentBySlackId,
+} = require('../dynamodb')
 
 process.env.SLACK_SIGNING_SECRET = 'wowowow'
 process.env.SLACK_TOKEN = 'moremore'
+
+function getRequest(
+    body,
+    timestamp,
+    signature = getSignature(timestamp, body),
+) {
+    return {
+        body,
+        headers: {
+            'X-Slack-Request-Timestamp': timestamp,
+            'X-Slack-Signature': signature,
+        },
+    }
+}
 
 describe('Slack name battle', () => {
     it.each([
@@ -44,13 +63,7 @@ describe('Slack name battle', () => {
     ])('conducts a name battle between %s and %s', async (target, attacker) => {
         const body = `text=${target}&user_id=${attacker}`
         const timestamp = 1231251
-        const result = await lambdaHandler({
-            body,
-            headers: {
-                'X-Slack-Request-Timestamp': timestamp,
-                'X-Slack-Signature': getSignature(timestamp, body),
-            },
-        })
+        const result = await lambdaHandler(getRequest(body, timestamp))
         expect(result.statusCode).toBe(200)
         expect(JSON.parse(result.body)).toMatchSnapshot()
     })
@@ -59,47 +72,42 @@ describe('Slack name battle', () => {
         const body = `text=target&user_id=attacker`
         const timestamp = 141251513
         const signature = getSignature(timestamp, body)
-        const result = await lambdaHandler({
-            body,
-            headers: {
-                'X-Slack-Request-Timestamp': timestamp,
-                'X-Slack-Signature': 'a'.repeat(signature.length),
-            },
-        })
+        const result = await lambdaHandler(
+            getRequest(body, timestamp, 'a'.repeat(signature.length)),
+        )
         expect(result.statusCode).toBe(400)
         expect(JSON.parse(result.body)).toMatchSnapshot()
     })
 
     it('sends an error message if the attacker is dead', async () => {
-        getDocumentsBySlackId.mockImplementation(() => ({
+        getBattleDocumentsBySlackId.mockImplementationOnce(() => ({
             Items: [{ lifeForce: 100 }],
         }))
         const body = `text=target&user_id=attacker`
         const timestamp = 1231251
-        const result = await lambdaHandler({
-            body,
-            headers: {
-                'X-Slack-Request-Timestamp': timestamp,
-                'X-Slack-Signature': getSignature(timestamp, body),
-            },
-        })
+        const result = await lambdaHandler(getRequest(body, timestamp))
         expect(result.statusCode).toBe(200)
         expect(JSON.parse(result.body)).toMatchSnapshot()
     })
 
     it('sends an error message if the target is dead', async () => {
-        getDocumentsBySlackId.mockImplementation(id => ({
+        getBattleDocumentsBySlackId.mockImplementation(id => ({
             Items: id === 'target' ? [{ lifeForce: 100 }] : [],
         }))
         const body = `text=target&user_id=attacker`
         const timestamp = 1231251
-        const result = await lambdaHandler({
-            body,
-            headers: {
-                'X-Slack-Request-Timestamp': timestamp,
-                'X-Slack-Signature': getSignature(timestamp, body),
-            },
-        })
+        const result = await lambdaHandler(getRequest(body, timestamp))
+        expect(result.statusCode).toBe(200)
+        expect(JSON.parse(result.body)).toMatchSnapshot()
+    })
+
+    it('kills the attacker if they change their name', async () => {
+        getMetadataDocumentBySlackId.mockImplementationOnce(() => ({
+            Item: { nameHash: 'lalala' },
+        }))
+        const body = `text=target&user_id=attacker`
+        const timestamp = 1231251
+        const result = await lambdaHandler(getRequest(body, timestamp))
         expect(result.statusCode).toBe(200)
         expect(JSON.parse(result.body)).toMatchSnapshot()
     })

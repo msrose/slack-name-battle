@@ -4,6 +4,7 @@ const nameBattle = require('name-battle')
 
 const config = require('./config')
 const { getTotalDebuffs, putDebuff } = require('./debuffs')
+const { didNameChange } = require('./metadata')
 const {
     getRandomNumber,
     isRequestSignatureValid,
@@ -17,24 +18,31 @@ function getResponse(
     attackerName,
     targetName,
     lifeForce,
+    didAttackerChangeName,
 ) {
     const lines = [
         `<@${attackerId}> challenges <@${targetId}> to a Name Battle! :collision: *_${attackerName}_* attacks *_${targetName}_* in a parallel universe...`,
     ]
-    const fixedLifeForce = lifeForce.toFixed(2)
-    let adjectives = []
-    let emojis = []
-    for (const messageConfig of config.messages) {
-        if (messageConfig.test(lifeForce)) {
-            adjectives = messageConfig.adjectives
-            emojis = messageConfig.emojis
-            lines.push(messageConfig.format(targetName, fixedLifeForce))
-            break
+    if (!didAttackerChangeName) {
+        const fixedLifeForce = lifeForce.toFixed(2)
+        let adjectives = []
+        let emojis = []
+        for (const messageConfig of config.messages) {
+            if (messageConfig.test(lifeForce)) {
+                adjectives = messageConfig.adjectives
+                emojis = messageConfig.emojis
+                lines.push(messageConfig.format(targetName, fixedLifeForce))
+                break
+            }
         }
+        const adjective = adjectives[getRandomNumber(adjectives.length)]
+        const emoji = emojis[getRandomNumber(emojis.length)]
+        lines[lines.length - 1] += ` ${adjective} attack! ${emoji}`
+    } else {
+        lines.push(
+            `:redsiren: ${attackerName} changed their name! For shame! ${targetName} is unaffected, and ${attackerName} dies instead! :redsiren:`,
+        )
     }
-    const adjective = adjectives[getRandomNumber(adjectives.length)]
-    const emoji = emojis[getRandomNumber(emojis.length)]
-    lines[lines.length - 1] += ` ${adjective} attack! ${emoji}`
     return lines.join('\n')
 }
 
@@ -44,8 +52,10 @@ exports.lambdaHandler = async event => {
     let attackerUserId
 
     try {
-        const timestamp = event.headers['X-Slack-Request-Timestamp']
-        const signature = event.headers['X-Slack-Signature']
+        const {
+            'X-Slack-Request-Timestamp': timestamp,
+            'X-Slack-Signature': signature,
+        } = event.headers
         if (
             !process.env.AWS_SAM_LOCAL &&
             !isRequestSignatureValid(timestamp, event.body, signature)
@@ -75,14 +85,24 @@ exports.lambdaHandler = async event => {
             getTotalDebuffs(targetUserId),
         ])
 
-        const lifeForce = nameBattle({ attacker, target })
+        let newLifeForce
+        const didAttackerChangeName = await didNameChange(
+            attackerUserId,
+            attacker,
+        )
 
-        const newLifeForce = lifeForce - targetDebuffs
-
-        if (newLifeForce > 0 || newLifeForce + (100 - lifeForce) > 0) {
-            await putDebuff(targetUserId, 100 - lifeForce)
+        if (didAttackerChangeName) {
+            await putDebuff(attackerUserId, 100, 15)
         } else {
-            throw new Error('Target is already dead!')
+            const lifeForce = nameBattle({ attacker, target })
+
+            newLifeForce = lifeForce - targetDebuffs
+
+            if (newLifeForce > 0 || newLifeForce + (100 - lifeForce) > 0) {
+                await putDebuff(targetUserId, 100 - lifeForce)
+            } else {
+                throw new Error('Target is already dead!')
+            }
         }
 
         response = {
@@ -95,6 +115,7 @@ exports.lambdaHandler = async event => {
                     attacker,
                     target,
                     newLifeForce,
+                    didAttackerChangeName,
                 ),
             }),
         }

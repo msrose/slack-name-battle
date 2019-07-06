@@ -34,6 +34,18 @@ Resources:
       TimeToLiveSpecification:
         Enabled: true
         AttributeName: timestamp
+  NameBattleMetadataTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      KeySchema:
+        - AttributeName: slack_id
+          KeyType: HASH
+      AttributeDefinitions:
+        - AttributeName: slack_id
+          AttributeType: S
+      ProvisionedThroughput:
+        ReadCapacityUnits: 5
+        WriteCapacityUnits: 5
   NameBattleFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
@@ -45,6 +57,7 @@ Resources:
           SLACK_TOKEN: !Ref SlackTokenParameter
           SLACK_SIGNING_SECRET: !Ref SlackSigningSecretParameter
           NAME_BATTLE_TABLE_NAME: !Ref NameBattleTable
+          NAME_BATTLE_METADATA_TABLE_NAME: !Ref NameBattleMetadataTable
       Events:
         NameBattle:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
@@ -54,6 +67,8 @@ Resources:
       Policies:
         - DynamoDBCrudPolicy:
             TableName: !Ref NameBattleTable
+        - DynamoDBCrudPolicy:
+            TableName: !Ref NameBattleMetadataTable
 
 Outputs:
   # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
