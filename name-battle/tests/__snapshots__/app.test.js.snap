@@ -67,40 +67,40 @@ Object {
 exports[`Slack name battle shows a health bar when the attacker is at -22% health 1`] = `
 Object {
   "text": "Status for *attacker*:
-\`          Life Force\`: [:black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart:] 0.00%
-\`             Attacks\`: [:collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision:] 100.00%",
+\`Life Force\`: [:black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart:] 0.00%
+\`   Attacks\`: [:collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision:] 100.00%",
 }
 `;
 
 exports[`Slack name battle shows a health bar when the attacker is at 0% health 1`] = `
 Object {
   "text": "Status for *attacker*:
-\`          Life Force\`: [:black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart:] 0.00%
-\`             Attacks\`: [:collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision:] 100.00%",
+\`Life Force\`: [:black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart:] 0.00%
+\`   Attacks\`: [:collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision:] 100.00%",
 }
 `;
 
 exports[`Slack name battle shows a health bar when the attacker is at 34% health 1`] = `
 Object {
   "text": "Status for *attacker*:
-\`          Life Force\`: [:heart::heart::heart::heart::heart::heart::heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart:] 34.00%
-\`             Attacks\`: [:collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision:] 100.00%",
+\`Life Force\`: [:heart::heart::heart::heart::heart::heart::heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart:] 34.00%
+\`   Attacks\`: [:collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision:] 100.00%",
 }
 `;
 
 exports[`Slack name battle shows a health bar when the attacker is at 77% health 1`] = `
 Object {
   "text": "Status for *attacker*:
-\`          Life Force\`: [:heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::black_heart::black_heart::black_heart::black_heart:] 77.00%
-\`             Attacks\`: [:collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision:] 100.00%",
+\`Life Force\`: [:heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::black_heart::black_heart::black_heart::black_heart:] 77.00%
+\`   Attacks\`: [:collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision:] 100.00%",
 }
 `;
 
 exports[`Slack name battle shows a health bar when the attacker is at 100% health 1`] = `
 Object {
   "text": "Status for *attacker*:
-\`          Life Force\`: [:heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart:] 100.00%
-\`             Attacks\`: [:collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision:] 100.00%",
+\`Life Force\`: [:heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart:] 100.00%
+\`   Attacks\`: [:collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision:] 100.00%",
 }
 `;
 
@@ -119,31 +119,31 @@ Object {
 exports[`Slack name battle shows a manna bar when the attacker has used 0 manna 1`] = `
 Object {
   "text": "Status for *attacker*:
-\`          Life Force\`: [:heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart:] 100.00%
-\`             Attacks\`: [:collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision:] 100.00%",
+\`Life Force\`: [:heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart:] 100.00%
+\`   Attacks\`: [:collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision:] 100.00%",
 }
 `;
 
 exports[`Slack name battle shows a manna bar when the attacker has used 2 manna 1`] = `
 Object {
   "text": "Status for *attacker*:
-\`          Life Force\`: [:heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart:] 100.00%
-\`             Attacks\`: [:collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::anger::anger::anger::anger::anger::anger::anger::anger:] 60.00%",
+\`Life Force\`: [:heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart:] 100.00%
+\`   Attacks\`: [:collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::anger::anger::anger::anger::anger::anger::anger::anger:] 60.00%",
 }
 `;
 
 exports[`Slack name battle shows a manna bar when the attacker has used 5 manna 1`] = `
 Object {
   "text": "Status for *attacker*:
-\`          Life Force\`: [:heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart:] 100.00%
-\`             Attacks\`: [:anger::anger::anger::anger::anger::anger::anger::anger::anger::anger::anger::anger::anger::anger::anger::anger::anger::anger::anger::anger:] 0.00%",
+\`Life Force\`: [:heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart:] 100.00%
+\`   Attacks\`: [:anger::anger::anger::anger::anger::anger::anger::anger::anger::anger::anger::anger::anger::anger::anger::anger::anger::anger::anger::anger:] 0.00%",
 }
 `;
 
 exports[`Slack name battle shows a manna bar when the attacker has used 6 manna 1`] = `
 Object {
   "text": "Status for *attacker*:
-\`          Life Force\`: [:heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart:] 100.00%
-\`             Attacks\`: [:anger::anger::anger::anger::anger::anger::anger::anger::anger::anger::anger::anger::anger::anger::anger::anger::anger::anger::anger::anger:] 0.00%",
+\`Life Force\`: [:heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart:] 100.00%
+\`   Attacks\`: [:anger::anger::anger::anger::anger::anger::anger::anger::anger::anger::anger::anger::anger::anger::anger::anger::anger::anger::anger::anger:] 0.00%",
 }
 `;
