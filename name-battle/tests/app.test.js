@@ -121,6 +121,19 @@ describe('Slack name battle', () => {
         },
     )
 
+    it.each([[6], [5], [2], [0]])(
+        'shows a manna bar when the attacker has used %s manna',
+        async manna => {
+            getBattleDocumentsBySlackId.mockImplementation(() => ({
+                Items: [{ manna }],
+            }))
+            const body = `text=status&user_id=attacker`
+            const result = await lambdaHandler(getRequest(body))
+            expect(result.statusCode).toBe(200)
+            expect(JSON.parse(result.body)).toMatchSnapshot()
+        },
+    )
+
     it('shows a help message if no text is given', async () => {
         const body = `text=&user_id=attacker`
         const result = await lambdaHandler(getRequest(body))
@@ -130,6 +143,16 @@ describe('Slack name battle', () => {
 
     it('shows a help message if help is given as the text', async () => {
         const body = `text=help&user_id=attacker`
+        const result = await lambdaHandler(getRequest(body))
+        expect(result.statusCode).toBe(200)
+        expect(JSON.parse(result.body)).toMatchSnapshot()
+    })
+
+    it('sends an errors message if the attacker is out of manna', async () => {
+        getBattleDocumentsBySlackId.mockImplementation(() => ({
+            Items: [{ manna: 5 }],
+        }))
+        const body = `text=target&user_id=attacker`
         const result = await lambdaHandler(getRequest(body))
         expect(result.statusCode).toBe(200)
         expect(JSON.parse(result.body)).toMatchSnapshot()

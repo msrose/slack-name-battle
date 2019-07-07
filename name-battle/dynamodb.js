@@ -36,13 +36,14 @@ function getBattleDocumentsBySlackId(id) {
     })
 }
 
-function putBattleDocumentBySlackId(id, value, timestamp) {
+function putBattleDocumentBySlackId(id, value, timestamp, manna = 0) {
     return put({
         TableName: BattleTableName,
         Item: {
             slack_id: id,
             timestamp,
             lifeForce: value,
+            manna,
         },
     })
 }

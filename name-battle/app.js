@@ -4,6 +4,7 @@ const nameBattle = require('name-battle')
 
 const config = require('./config')
 const { getTotalDebuffs, putDebuff } = require('./debuffs')
+const { useManna, getUsedManna } = require('./manna')
 const { didNameChange } = require('./metadata')
 const {
     getRandomNumber,
@@ -82,33 +83,60 @@ exports.lambdaHandler = async event => {
 
         attackerUserId = parameters.get('user_id')
 
-        const attackerDebuffs = await getTotalDebuffs(attackerUserId)
+        const [attackerDebuffs, attackerUsedManna] = await Promise.all([
+            getTotalDebuffs(attackerUserId),
+            getUsedManna(attackerUserId),
+        ])
 
         if (targetUserId === 'status') {
+            const getStatusBar = (max, value, length, unit, empty) => {
+                const percentage = Math.max(max - value, 0) / max
+                return Array(length)
+                    .fill()
+                    .map((_, i) => (i < length * percentage ? unit : empty))
+                    .join('')
+            }
+            const healthBar = getStatusBar(
+                100,
+                attackerDebuffs,
+                20,
+                ':heart:',
+                ':black_heart:',
+            )
+            const mannaBar = getStatusBar(
+                5,
+                attackerUsedManna,
+                20,
+                ':collision:',
+                ':anger:',
+            )
             const health = Math.max(100 - attackerDebuffs, 0) / 100
-            const healthBarUnit = ':heart:'
-            const healthBarEmpty = ':black_heart:'
-            const healthBarLength = 20
-            const healthBar = Array(healthBarLength)
-                .fill()
-                .map((_, i) =>
-                    i < healthBarLength * health
-                        ? healthBarUnit
-                        : healthBarEmpty,
-                )
-                .join('')
             const fixedHealth = (health * 100).toFixed(2)
+            const manna = Math.max(5 - attackerUsedManna, 0) / 5
+            const fixedManna = (manna * 100).toFixed(2)
             const attackerName = await getRealName(attackerUserId)
             return {
                 statusCode: 200,
                 body: JSON.stringify({
-                    text: `Status for *${attackerName}*:\n*_Life Force_*: [${healthBar}] ${fixedHealth}%`,
+                    text: [
+                        `Status for *${attackerName}*:`,
+                        `\`${'Life Force'.padStart(
+                            20,
+                        )}\`: [${healthBar}] ${fixedHealth}%`,
+                        `\`${'Attacks'.padStart(
+                            20,
+                        )}\`: [${mannaBar}] ${fixedManna}%`,
+                    ].join('\n'),
                 }),
             }
         }
 
         if (attackerDebuffs >= 100) {
             throw new Error("You can't Name Battle: you're dead!")
+        }
+
+        if (attackerUsedManna >= 5) {
+            throw new Error("You can't Name Battle: out of attacks!")
         }
 
         const [attacker, target, targetDebuffs] = await Promise.all([
@@ -131,7 +159,10 @@ exports.lambdaHandler = async event => {
             newLifeForce = lifeForce - targetDebuffs
 
             if (newLifeForce > 0 || newLifeForce + (100 - lifeForce) > 0) {
-                await putDebuff(targetUserId, 100 - lifeForce)
+                await Promise.all([
+                    putDebuff(targetUserId, 100 - lifeForce),
+                    useManna(attackerUserId),
+                ])
             } else {
                 throw new Error('Target is already dead!')
             }
@@ -162,7 +193,8 @@ exports.lambdaHandler = async event => {
             statusCode = 200
         } else if (
             errorMessage === "You can't Name Battle: you're dead!" ||
-            errorMessage === 'Target is already dead!'
+            errorMessage === 'Target is already dead!' ||
+            errorMessage === "You can't Name Battle: out of attacks!"
         ) {
             statusCode = 200
         }

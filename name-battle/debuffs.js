@@ -6,7 +6,7 @@ const {
 async function getTotalDebuffs(id) {
     const debuffs = await getBattleDocumentsBySlackId(id)
     return debuffs.Items.reduce(
-        (total, { lifeForce: debuffForce }) => total + debuffForce,
+        (total, { lifeForce: debuffForce = 0 }) => total + debuffForce,
         0,
     )
 }
