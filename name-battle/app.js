@@ -75,6 +75,29 @@ exports.lambdaHandler = async event => {
 
         const attackerDebuffs = await getTotalDebuffs(attackerUserId)
 
+        if (targetUserId === 'status') {
+            const health = Math.max(100 - attackerDebuffs, 0) / 100
+            const healthBarUnit = ':heart:'
+            const healthBarEmpty = ':black_heart:'
+            const healthBarLength = 20
+            const healthBar = Array(healthBarLength)
+                .fill()
+                .map((_, i) =>
+                    i < healthBarLength * health
+                        ? healthBarUnit
+                        : healthBarEmpty,
+                )
+                .join('')
+            const fixedHealth = (health * 100).toFixed(2)
+            const attackerName = await getRealName(attackerUserId)
+            return {
+                statusCode: 200,
+                body: JSON.stringify({
+                    text: `Status for *${attackerName}*:\n*_Life Force_*: [${healthBar}] ${fixedHealth}%`,
+                }),
+            }
+        }
+
         if (attackerDebuffs >= 100) {
             throw new Error("You can't Name Battle: you're dead!")
         }

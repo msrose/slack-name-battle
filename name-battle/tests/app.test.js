@@ -111,4 +111,18 @@ describe('Slack name battle', () => {
         expect(result.statusCode).toBe(200)
         expect(JSON.parse(result.body)).toMatchSnapshot()
     })
+
+    it.each([[100], [77], [34], [0], [-22]])(
+        'shows a health bar when the attacker is at %s%% health',
+        async lifeForce => {
+            getBattleDocumentsBySlackId.mockImplementationOnce(() => ({
+                Items: [{ lifeForce: 100 - lifeForce }],
+            }))
+            const body = `text=status&user_id=attacker`
+            const timestamp = 1231251
+            const result = await lambdaHandler(getRequest(body, timestamp))
+            expect(result.statusCode).toBe(200)
+            expect(JSON.parse(result.body)).toMatchSnapshot()
+        },
+    )
 })

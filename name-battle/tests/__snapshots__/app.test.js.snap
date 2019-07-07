@@ -57,3 +57,38 @@ Object {
   "text": "Could not conduct Name Battle! Error: Forbidden: signature mismatch.",
 }
 `;
+
+exports[`Slack name battle shows a health bar when the attacker is at -22% health 1`] = `
+Object {
+  "text": "Status for *attacker*:
+*_Life Force_*: [:black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart:] 0.00%",
+}
+`;
+
+exports[`Slack name battle shows a health bar when the attacker is at 0% health 1`] = `
+Object {
+  "text": "Status for *attacker*:
+*_Life Force_*: [:black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart:] 0.00%",
+}
+`;
+
+exports[`Slack name battle shows a health bar when the attacker is at 34% health 1`] = `
+Object {
+  "text": "Status for *attacker*:
+*_Life Force_*: [:heart::heart::heart::heart::heart::heart::heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart:] 34.00%",
+}
+`;
+
+exports[`Slack name battle shows a health bar when the attacker is at 77% health 1`] = `
+Object {
+  "text": "Status for *attacker*:
+*_Life Force_*: [:heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::black_heart::black_heart::black_heart::black_heart:] 77.00%",
+}
+`;
+
+exports[`Slack name battle shows a health bar when the attacker is at 100% health 1`] = `
+Object {
+  "text": "Status for *attacker*:
+*_Life Force_*: [:heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart:] 100.00%",
+}
+`;
