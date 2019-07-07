@@ -125,4 +125,12 @@ describe('Slack name battle', () => {
             expect(JSON.parse(result.body)).toMatchSnapshot()
         },
     )
+
+    it('shows a help message if no text is given', async () => {
+        const body = `text=&user_id=attacker`
+        const timestamp = 1231251
+        const result = await lambdaHandler(getRequest(body, timestamp))
+        expect(result.statusCode).toBe(200)
+        expect(JSON.parse(result.body)).toMatchSnapshot()
+    })
 })

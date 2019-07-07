@@ -71,6 +71,15 @@ exports.lambdaHandler = async event => {
             .split('|')[0]
             .replace(/[<@]/g, '')
 
+        if (!targetUserId) {
+            return {
+                statusCode: 200,
+                body: JSON.stringify({
+                    text: 'Usage: `/name-battle @<target> | status`',
+                }),
+            }
+        }
+
         attackerUserId = parameters.get('user_id')
 
         const attackerDebuffs = await getTotalDebuffs(attackerUserId)

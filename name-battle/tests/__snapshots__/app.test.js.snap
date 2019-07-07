@@ -92,3 +92,9 @@ Object {
 *_Life Force_*: [:heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart:] 100.00%",
 }
 `;
+
+exports[`Slack name battle shows a help message if no text is given 1`] = `
+Object {
+  "text": "Usage: \`/name-battle @<target> | status\`",
+}
+`;
