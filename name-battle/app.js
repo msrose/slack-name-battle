@@ -121,10 +121,10 @@ exports.lambdaHandler = async event => {
                     text: [
                         `Status for *${attackerName}*:`,
                         `\`${'Life Force'.padStart(
-                            20,
+                            10,
                         )}\`: [${healthBar}] ${fixedHealth}%`,
                         `\`${'Attacks'.padStart(
-                            20,
+                            10,
                         )}\`: [${mannaBar}] ${fixedManna}%`,
                     ].join('\n'),
                 }),
