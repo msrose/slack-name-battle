@@ -42,7 +42,7 @@ process.env.SLACK_TOKEN = 'moremore'
 
 function getRequest(
     body,
-    timestamp,
+    timestamp = 1241455,
     signature = getSignature(timestamp, body),
 ) {
     return {
@@ -62,8 +62,7 @@ describe('Slack name battle', () => {
         ['aaaaa', 'aa'],
     ])('conducts a name battle between %s and %s', async (target, attacker) => {
         const body = `text=${target}&user_id=${attacker}`
-        const timestamp = 1231251
-        const result = await lambdaHandler(getRequest(body, timestamp))
+        const result = await lambdaHandler(getRequest(body))
         expect(result.statusCode).toBe(200)
         expect(JSON.parse(result.body)).toMatchSnapshot()
     })
@@ -84,8 +83,7 @@ describe('Slack name battle', () => {
             Items: [{ lifeForce: 100 }],
         }))
         const body = `text=target&user_id=attacker`
-        const timestamp = 1231251
-        const result = await lambdaHandler(getRequest(body, timestamp))
+        const result = await lambdaHandler(getRequest(body))
         expect(result.statusCode).toBe(200)
         expect(JSON.parse(result.body)).toMatchSnapshot()
     })
@@ -95,8 +93,7 @@ describe('Slack name battle', () => {
             Items: id === 'target' ? [{ lifeForce: 100 }] : [],
         }))
         const body = `text=target&user_id=attacker`
-        const timestamp = 1231251
-        const result = await lambdaHandler(getRequest(body, timestamp))
+        const result = await lambdaHandler(getRequest(body))
         expect(result.statusCode).toBe(200)
         expect(JSON.parse(result.body)).toMatchSnapshot()
     })
@@ -106,8 +103,7 @@ describe('Slack name battle', () => {
             Item: { nameHash: 'lalala' },
         }))
         const body = `text=target&user_id=attacker`
-        const timestamp = 1231251
-        const result = await lambdaHandler(getRequest(body, timestamp))
+        const result = await lambdaHandler(getRequest(body))
         expect(result.statusCode).toBe(200)
         expect(JSON.parse(result.body)).toMatchSnapshot()
     })
@@ -119,8 +115,7 @@ describe('Slack name battle', () => {
                 Items: [{ lifeForce: 100 - lifeForce }],
             }))
             const body = `text=status&user_id=attacker`
-            const timestamp = 1231251
-            const result = await lambdaHandler(getRequest(body, timestamp))
+            const result = await lambdaHandler(getRequest(body))
             expect(result.statusCode).toBe(200)
             expect(JSON.parse(result.body)).toMatchSnapshot()
         },
@@ -128,8 +123,14 @@ describe('Slack name battle', () => {
 
     it('shows a help message if no text is given', async () => {
         const body = `text=&user_id=attacker`
-        const timestamp = 1231251
-        const result = await lambdaHandler(getRequest(body, timestamp))
+        const result = await lambdaHandler(getRequest(body))
+        expect(result.statusCode).toBe(200)
+        expect(JSON.parse(result.body)).toMatchSnapshot()
+    })
+
+    it('shows a help message if help is given as the text', async () => {
+        const body = `text=help&user_id=attacker`
+        const result = await lambdaHandler(getRequest(body))
         expect(result.statusCode).toBe(200)
         expect(JSON.parse(result.body)).toMatchSnapshot()
     })

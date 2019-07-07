@@ -93,6 +93,12 @@ Object {
 }
 `;
 
+exports[`Slack name battle shows a help message if help is given as the text 1`] = `
+Object {
+  "text": "Usage: \`/name-battle @<target> | status\`",
+}
+`;
+
 exports[`Slack name battle shows a help message if no text is given 1`] = `
 Object {
   "text": "Usage: \`/name-battle @<target> | status\`",

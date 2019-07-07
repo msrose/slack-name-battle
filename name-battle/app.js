@@ -71,7 +71,7 @@ exports.lambdaHandler = async event => {
             .split('|')[0]
             .replace(/[<@]/g, '')
 
-        if (!targetUserId) {
+        if (!targetUserId || targetUserId === 'help') {
             return {
                 statusCode: 200,
                 body: JSON.stringify({
