@@ -86,3 +86,6 @@ Outputs:
   NameBattleTable:
     Description: "DynamoDB table for Name Battles"
     Value: !GetAtt NameBattleTable.Arn
+  NameBattleMetadataTable:
+    Description: "DynamoDB table for Name Battle metadata"
+    Value: !GetAtt NameBattleMetadataTable.Arn
