@@ -15,7 +15,11 @@ async function didNameChange(slackId, name) {
         await updateMetadataDocumentBySlackId(slackId, nameHash)
         return false
     }
-    return item.nameHash !== nameHash
+    const didChange = item.nameHash !== nameHash
+    if (didChange) {
+        await updateMetadataDocumentBySlackId(slackId, nameHash)
+    }
+    return didChange
 }
 
 exports.didNameChange = didNameChange
