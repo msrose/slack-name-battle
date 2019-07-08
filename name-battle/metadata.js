@@ -45,7 +45,7 @@ function recordBattle(attackerId, targetId, isKill) {
 
 async function getStats(id) {
     const { Item: stats } = await getMetadataDocumentBySlackId(id)
-    return stats
+    return stats || {}
 }
 
 exports.didNameChange = didNameChange
