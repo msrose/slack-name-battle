@@ -5,7 +5,7 @@ const nameBattle = require('name-battle')
 const config = require('./config')
 const { getTotalDebuffs, putDebuff } = require('./debuffs')
 const { useManna, getUsedManna } = require('./manna')
-const { didNameChange } = require('./metadata')
+const { didNameChange, recordBattle, getStats } = require('./metadata')
 const {
     getRandomNumber,
     isRequestSignatureValid,
@@ -76,12 +76,36 @@ exports.lambdaHandler = async event => {
             return {
                 statusCode: 200,
                 body: JSON.stringify({
-                    text: 'Usage: `/name-battle @<target> | status`',
+                    text:
+                        'Usage: `/name-battle @<target> | status | stats | statsp | help`',
                 }),
             }
         }
 
         attackerUserId = parameters.get('user_id')
+
+        if (targetUserId === 'stats' || targetUserId === 'statsp') {
+            const [realName, stats] = await Promise.all([
+                getRealName(attackerUserId),
+                getStats(attackerUserId),
+            ])
+            const getStat = stat => stats[stat] || 0
+            return {
+                statusCode: 200,
+                body: JSON.stringify({
+                    response_type:
+                        targetUserId === 'statsp' ? 'in_channel' : 'ephemeral',
+                    text: [
+                        `Stats for *${realName}*:`,
+                        [
+                            `:dagger_knife: Kills: *${getStat('kills')}*`,
+                            `:skull: Deaths: *${getStat('deaths')}*`,
+                            `:garbage_fire: Suicides: *${getStat('suicides')}*`,
+                        ].join(' | '),
+                    ].join('\n'),
+                }),
+            }
+        }
 
         const [attackerDebuffs, attackerUsedManna] = await Promise.all([
             getTotalDebuffs(attackerUserId),
@@ -158,10 +182,15 @@ exports.lambdaHandler = async event => {
 
             newLifeForce = lifeForce - targetDebuffs
 
-            if (newLifeForce > 0 || newLifeForce + (100 - lifeForce) > 0) {
+            const isKill =
+                newLifeForce <= 0 && newLifeForce + (100 - lifeForce) > 0
+
+            if (newLifeForce > 0 || isKill) {
+                // TODO: put these in a transaction
                 await Promise.all([
                     putDebuff(targetUserId, 100 - lifeForce),
                     useManna(attackerUserId),
+                    recordBattle(attackerUserId, targetUserId, isKill),
                 ])
             } else {
                 throw new Error('Target is already dead!')

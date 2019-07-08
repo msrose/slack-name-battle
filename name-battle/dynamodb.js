@@ -23,6 +23,7 @@ function getBattleDocumentsBySlackId(id) {
     const now = Math.floor(Date.now() / 1000)
     return query({
         TableName: BattleTableName,
+        ConsistentRead: true,
         KeyConditions: {
             slack_id: {
                 ComparisonOperator: 'EQ',
@@ -48,12 +49,13 @@ function putBattleDocumentBySlackId(id, value, timestamp, manna = 0) {
     })
 }
 
-function getMetadataDocumentBySlackId(id) {
+function getMetadataDocumentBySlackId(id, attributes = []) {
     return get({
         TableName: MetadataTableName,
         Key: {
             slack_id: id,
         },
+        ProjectionExpression: attributes.join() || undefined,
     })
 }
 
@@ -63,9 +65,23 @@ function updateMetadataDocumentBySlackId(id, nameHash) {
         Key: {
             slack_id: id,
         },
-        UpdateExpression: 'set #nameHash = :nameHash',
-        ExpressionAttributeNames: { '#nameHash': 'nameHash' },
+        UpdateExpression: 'set nameHash = :nameHash',
         ExpressionAttributeValues: { ':nameHash': nameHash },
+    })
+}
+
+function incrementMetadataDocumentFieldsBySlackId(id, fields) {
+    return update({
+        TableName: MetadataTableName,
+        Key: {
+            slack_id: id,
+        },
+        UpdateExpression: `set ${fields
+            .map(
+                field => `${field} = if_not_exists(${field}, :default) + :incr`,
+            )
+            .join()}`,
+        ExpressionAttributeValues: { ':incr': 1, ':default': 0 },
     })
 }
 
@@ -73,3 +89,4 @@ exports.getBattleDocumentsBySlackId = getBattleDocumentsBySlackId
 exports.putBattleDocumentBySlackId = putBattleDocumentBySlackId
 exports.getMetadataDocumentBySlackId = getMetadataDocumentBySlackId
 exports.updateMetadataDocumentBySlackId = updateMetadataDocumentBySlackId
+exports.incrementMetadataDocumentFieldsBySlackId = incrementMetadataDocumentFieldsBySlackId

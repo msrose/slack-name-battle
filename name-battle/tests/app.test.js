@@ -1,8 +1,9 @@
 jest.mock('../dynamodb', () => ({
     getBattleDocumentsBySlackId: jest.fn(() => ({ Items: [] })),
     putBattleDocumentBySlackId: () => {},
-    getMetadataDocumentBySlackId: jest.fn(() => ({ Item: undefined })),
+    getMetadataDocumentBySlackId: jest.fn(() => ({})),
     updateMetadataDocumentBySlackId: () => {},
+    incrementMetadataDocumentFieldsBySlackId: () => {},
 }))
 
 jest.mock('../utils', () => {
@@ -99,7 +100,7 @@ describe('Slack name battle', () => {
     })
 
     it('kills the attacker if they change their name', async () => {
-        getMetadataDocumentBySlackId.mockImplementationOnce(() => ({
+        getMetadataDocumentBySlackId.mockImplementation(() => ({
             Item: { nameHash: 'lalala' },
         }))
         const body = `text=target&user_id=attacker`
@@ -153,6 +154,26 @@ describe('Slack name battle', () => {
             Items: [{ manna: 5 }],
         }))
         const body = `text=target&user_id=attacker`
+        const result = await lambdaHandler(getRequest(body))
+        expect(result.statusCode).toBe(200)
+        expect(JSON.parse(result.body)).toMatchSnapshot()
+    })
+
+    it('shows stats when the stats command is given', async () => {
+        getMetadataDocumentBySlackId.mockImplementation(() => ({
+            Item: { kills: 2, deaths: 3, suicides: 4 },
+        }))
+        const body = `text=stats&user_id=attacker`
+        const result = await lambdaHandler(getRequest(body))
+        expect(result.statusCode).toBe(200)
+        expect(JSON.parse(result.body)).toMatchSnapshot()
+    })
+
+    it('shows stats publicly when statsp is given', async () => {
+        getMetadataDocumentBySlackId.mockImplementation(() => ({
+            Item: { kills: 2, deaths: 3, suicides: 4 },
+        }))
+        const body = `text=statsp&user_id=attacker`
         const result = await lambdaHandler(getRequest(body))
         expect(result.statusCode).toBe(200)
         expect(JSON.parse(result.body)).toMatchSnapshot()
