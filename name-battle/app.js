@@ -77,14 +77,14 @@ exports.lambdaHandler = async event => {
                 statusCode: 200,
                 body: JSON.stringify({
                     text:
-                        'Usage: `/name-battle @<target> | status | stats | statsp | help`',
+                        'Usage: `/name-battle @<target> | status | stats | help`',
                 }),
             }
         }
 
         attackerUserId = parameters.get('user_id')
 
-        if (targetUserId === 'stats' || targetUserId === 'statsp') {
+        if (targetUserId === 'stats') {
             const [realName, stats] = await Promise.all([
                 getRealName(attackerUserId),
                 getStats(attackerUserId),
@@ -93,8 +93,7 @@ exports.lambdaHandler = async event => {
             return {
                 statusCode: 200,
                 body: JSON.stringify({
-                    response_type:
-                        targetUserId === 'statsp' ? 'in_channel' : 'ephemeral',
+                    response_type: 'in_channel',
                     text: [
                         `Stats for *${realName}*:`,
                         [

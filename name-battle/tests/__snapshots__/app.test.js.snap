@@ -106,13 +106,13 @@ Object {
 
 exports[`Slack name battle shows a help message if help is given as the text 1`] = `
 Object {
-  "text": "Usage: \`/name-battle @<target> | status | stats | statsp | help\`",
+  "text": "Usage: \`/name-battle @<target> | status | stats | help\`",
 }
 `;
 
 exports[`Slack name battle shows a help message if no text is given 1`] = `
 Object {
-  "text": "Usage: \`/name-battle @<target> | status | stats | statsp | help\`",
+  "text": "Usage: \`/name-battle @<target> | status | stats | help\`",
 }
 `;
 
@@ -148,17 +148,9 @@ Object {
 }
 `;
 
-exports[`Slack name battle shows stats publicly when statsp is given 1`] = `
-Object {
-  "response_type": "in_channel",
-  "text": "Stats for *attacker*:
-:dagger_knife: Kills: *2* | :skull: Deaths: *3* | :garbage_fire: Suicides: *4*",
-}
-`;
-
 exports[`Slack name battle shows stats when the stats command is given 1`] = `
 Object {
-  "response_type": "ephemeral",
+  "response_type": "in_channel",
   "text": "Stats for *attacker*:
 :dagger_knife: Kills: *2* | :skull: Deaths: *3* | :garbage_fire: Suicides: *4*",
 }
