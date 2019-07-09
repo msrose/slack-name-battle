@@ -4,6 +4,7 @@ jest.mock('../dynamodb', () => ({
     getMetadataDocumentBySlackId: jest.fn(() => ({})),
     updateMetadataDocumentBySlackId: () => {},
     incrementMetadataDocumentFieldsBySlackId: () => {},
+    getAllMetadataDocuments: jest.fn(() => ({ Items: [] })),
 }))
 
 jest.mock('../utils', () => {
@@ -36,6 +37,7 @@ const { getSignature } = require('../utils')
 const {
     getBattleDocumentsBySlackId,
     getMetadataDocumentBySlackId,
+    getAllMetadataDocuments,
 } = require('../dynamodb')
 
 process.env.SLACK_SIGNING_SECRET = 'wowowow'
@@ -164,6 +166,19 @@ describe('Slack name battle', () => {
             Item: { kills: 2, deaths: 3, suicides: 4 },
         }))
         const body = `text=stats&user_id=attacker`
+        const result = await lambdaHandler(getRequest(body))
+        expect(result.statusCode).toBe(200)
+        expect(JSON.parse(result.body)).toMatchSnapshot()
+    })
+
+    it('shows a laederboard when the leaders command is given', async () => {
+        getAllMetadataDocuments.mockImplementation(() => ({
+            Items: [
+                { kills: 25, deaths: 5, slack_id: 'michael' },
+                { kills: 10, deaths: 1, slack_id: 'vikram' },
+            ],
+        }))
+        const body = `text=leaders&user_id=attacker`
         const result = await lambdaHandler(getRequest(body))
         expect(result.statusCode).toBe(200)
         expect(JSON.parse(result.body)).toMatchSnapshot()

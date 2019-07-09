@@ -15,6 +15,7 @@ const query = util.promisify(dynamodb.query.bind(dynamodb))
 const put = util.promisify(dynamodb.put.bind(dynamodb))
 const update = util.promisify(dynamodb.update.bind(dynamodb))
 const get = util.promisify(dynamodb.get.bind(dynamodb))
+const scan = util.promisify(dynamodb.scan.bind(dynamodb))
 
 const BattleTableName = process.env.NAME_BATTLE_TABLE_NAME
 const MetadataTableName = process.env.NAME_BATTLE_METADATA_TABLE_NAME
@@ -85,8 +86,17 @@ function incrementMetadataDocumentFieldsBySlackId(id, fields) {
     })
 }
 
+function getAllMetadataDocuments() {
+    return scan({
+        TableName: MetadataTableName,
+        FilterExpression: 'kills > :min_kills',
+        ExpressionAttributeValues: { ':min_kills': 0 },
+    })
+}
+
 exports.getBattleDocumentsBySlackId = getBattleDocumentsBySlackId
 exports.putBattleDocumentBySlackId = putBattleDocumentBySlackId
 exports.getMetadataDocumentBySlackId = getMetadataDocumentBySlackId
 exports.updateMetadataDocumentBySlackId = updateMetadataDocumentBySlackId
 exports.incrementMetadataDocumentFieldsBySlackId = incrementMetadataDocumentFieldsBySlackId
+exports.getAllMetadataDocuments = getAllMetadataDocuments

@@ -5,7 +5,12 @@ const nameBattle = require('name-battle')
 const config = require('./config')
 const { getTotalDebuffs, putDebuff } = require('./debuffs')
 const { useManna, getUsedManna } = require('./manna')
-const { didNameChange, recordBattle, getStats } = require('./metadata')
+const {
+    didNameChange,
+    recordBattle,
+    getStats,
+    getLeaderboard,
+} = require('./metadata')
 const {
     getRandomNumber,
     isRequestSignatureValid,
@@ -77,7 +82,28 @@ exports.lambdaHandler = async event => {
                 statusCode: 200,
                 body: JSON.stringify({
                     text:
-                        'Usage: `/name-battle @<target> | status | stats | help`',
+                        'Usage: `/name-battle @<target> | status | stats | help | leaders`',
+                }),
+            }
+        }
+
+        if (targetUserId === 'leaders') {
+            const leaders = await getLeaderboard()
+            const leadersWithNames = await Promise.all(
+                leaders.map(({ slackId, ratio }) =>
+                    getRealName(slackId).then(name => ({ name, ratio })),
+                ),
+            )
+            return {
+                statusCode: 200,
+                body: JSON.stringify({
+                    response_type: 'in_channel',
+                    text: `*Leaderboard*\n${leadersWithNames
+                        .map(
+                            ({ name, ratio }, i) =>
+                                `${i + 1}. *${name}*: ${ratio.toFixed(3)}`,
+                        )
+                        .join('\n')}`,
                 }),
             }
         }

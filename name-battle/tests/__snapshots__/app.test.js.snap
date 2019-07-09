@@ -106,13 +106,22 @@ Object {
 
 exports[`Slack name battle shows a help message if help is given as the text 1`] = `
 Object {
-  "text": "Usage: \`/name-battle @<target> | status | stats | help\`",
+  "text": "Usage: \`/name-battle @<target> | status | stats | help | leaders\`",
 }
 `;
 
 exports[`Slack name battle shows a help message if no text is given 1`] = `
 Object {
-  "text": "Usage: \`/name-battle @<target> | status | stats | help\`",
+  "text": "Usage: \`/name-battle @<target> | status | stats | help | leaders\`",
+}
+`;
+
+exports[`Slack name battle shows a laederboard when the leaders command is given 1`] = `
+Object {
+  "response_type": "in_channel",
+  "text": "*Leaderboard*
+1. *vikram*: 10.000
+2. *michael*: 5.000",
 }
 `;
 

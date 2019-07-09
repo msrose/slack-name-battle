@@ -4,6 +4,7 @@ const {
     getMetadataDocumentBySlackId,
     updateMetadataDocumentBySlackId,
     incrementMetadataDocumentFieldsBySlackId,
+    getAllMetadataDocuments,
 } = require('./dynamodb')
 
 async function didNameChange(slackId, name) {
@@ -48,6 +49,18 @@ async function getStats(id) {
     return stats || {}
 }
 
+async function getLeaderboard() {
+    const { Items: allMetadata } = await getAllMetadataDocuments()
+    return allMetadata
+        .map(({ slack_id: slackId, kills = 0, deaths = 0 }) => ({
+            slackId,
+            ratio: kills / deaths,
+        }))
+        .sort((a, b) => b.ratio - a.ratio)
+        .slice(0, 5)
+}
+
 exports.didNameChange = didNameChange
 exports.recordBattle = recordBattle
 exports.getStats = getStats
+exports.getLeaderboard = getLeaderboard
