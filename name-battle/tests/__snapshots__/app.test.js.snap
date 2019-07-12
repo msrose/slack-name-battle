@@ -41,6 +41,14 @@ Object {
 }
 `;
 
+exports[`Slack name battle extracts slack IDs correctly from payload 1`] = `
+Object {
+  "response_type": "in_channel",
+  "text": "<@attacker> challenges <@target> to a Name Battle! :collision: *_attacker_* attacks *_target_* in a parallel universe...
+target is critically injured, with *16.67%* life force remaining! A destructive attack! :face_with_head_bandage:",
+}
+`;
+
 exports[`Slack name battle kills the attacker if they change their name 1`] = `
 Object {
   "response_type": "in_channel",
@@ -51,13 +59,13 @@ Object {
 
 exports[`Slack name battle sends an error message if the attacker is dead 1`] = `
 Object {
-  "text": "Could not conduct Name Battle! Error: You can't Name Battle: you're dead!.",
+  "text": "You can't Name Battle: you're dead!",
 }
 `;
 
 exports[`Slack name battle sends an error message if the target is dead 1`] = `
 Object {
-  "text": "Could not conduct Name Battle! Error: Target is already dead!.",
+  "text": "You can't Name Battle: target is already dead!",
 }
 `;
 
@@ -69,7 +77,7 @@ Object {
 
 exports[`Slack name battle sends an errors message if the attacker is out of manna 1`] = `
 Object {
-  "text": "Could not conduct Name Battle! Error: You can't Name Battle: out of attacks!.",
+  "text": "You can't Name Battle: out of attacks!",
 }
 `;
 

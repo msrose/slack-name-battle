@@ -1,10 +1,10 @@
 jest.mock('../dynamodb', () => ({
-    getBattleDocumentsBySlackId: jest.fn(() => ({ Items: [] })),
+    getBattleDocumentsBySlackId: jest.fn(),
     putBattleDocumentBySlackId: () => {},
-    getMetadataDocumentBySlackId: jest.fn(() => ({})),
+    getMetadataDocumentBySlackId: jest.fn(),
     updateMetadataDocumentBySlackId: () => {},
     incrementMetadataDocumentFieldsBySlackId: () => {},
-    getAllMetadataDocuments: jest.fn(() => ({ Items: [] })),
+    getAllMetadataDocuments: jest.fn(),
 }))
 
 jest.mock('../utils', () => {
@@ -39,6 +39,15 @@ const {
     getMetadataDocumentBySlackId,
     getAllMetadataDocuments,
 } = require('../dynamodb')
+
+beforeEach(() => {
+    getBattleDocumentsBySlackId.mockReset()
+    getBattleDocumentsBySlackId.mockImplementation(() => ({ Items: [] }))
+    getMetadataDocumentBySlackId.mockReset()
+    getMetadataDocumentBySlackId.mockImplementation(() => ({}))
+    getAllMetadataDocuments.mockReset()
+    getAllMetadataDocuments.mockImplementation(() => ({ Items: [] }))
+})
 
 process.env.SLACK_SIGNING_SECRET = 'wowowow'
 process.env.SLACK_TOKEN = 'moremore'
@@ -82,7 +91,7 @@ describe('Slack name battle', () => {
     })
 
     it('sends an error message if the attacker is dead', async () => {
-        getBattleDocumentsBySlackId.mockImplementationOnce(() => ({
+        getBattleDocumentsBySlackId.mockImplementation(() => ({
             Items: [{ lifeForce: 100 }],
         }))
         const body = `text=target&user_id=attacker`
@@ -114,7 +123,7 @@ describe('Slack name battle', () => {
     it.each([[100], [77], [34], [0], [-22]])(
         'shows a health bar when the attacker is at %s%% health',
         async lifeForce => {
-            getBattleDocumentsBySlackId.mockImplementationOnce(() => ({
+            getBattleDocumentsBySlackId.mockImplementation(() => ({
                 Items: [{ lifeForce: 100 - lifeForce }],
             }))
             const body = `text=status&user_id=attacker`
@@ -194,6 +203,13 @@ describe('Slack name battle', () => {
             ScannedCount: 3,
         }))
         const body = `text=leaders&user_id=attacker`
+        const result = await lambdaHandler(getRequest(body))
+        expect(result.statusCode).toBe(200)
+        expect(JSON.parse(result.body)).toMatchSnapshot()
+    })
+
+    it('extracts slack IDs correctly from payload', async () => {
+        const body = `text=<@target|targetusername>&user_id=attacker`
         const result = await lambdaHandler(getRequest(body))
         expect(result.statusCode).toBe(200)
         expect(JSON.parse(result.body)).toMatchSnapshot()

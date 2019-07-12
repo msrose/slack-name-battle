@@ -54,8 +54,6 @@ function getResponse(
 
 exports.lambdaHandler = async event => {
     let response
-    let targetUserId
-    let attackerUserId
 
     try {
         const {
@@ -71,13 +69,11 @@ exports.lambdaHandler = async event => {
 
         const parameters = new URLSearchParams(event.body)
 
-        targetUserId = parameters
-            .get('text')
-            .split(' ')[0]
-            .split('|')[0]
-            .replace(/[<@]/g, '')
+        const tokens = parameters.get('text').split(' ')
 
-        if (!targetUserId || targetUserId === 'help') {
+        const command = tokens[0]
+
+        if (!command || command === 'help') {
             return {
                 statusCode: 200,
                 body: JSON.stringify({
@@ -87,7 +83,7 @@ exports.lambdaHandler = async event => {
             }
         }
 
-        if (targetUserId === 'leaders') {
+        if (command === 'leaders') {
             const { leaders, total } = await getLeaderboard()
             const leadersWithNames = await Promise.all(
                 leaders.map(({ slackId, ratio }) =>
@@ -110,9 +106,9 @@ exports.lambdaHandler = async event => {
             }
         }
 
-        attackerUserId = parameters.get('user_id')
+        const attackerUserId = parameters.get('user_id')
 
-        if (targetUserId === 'stats') {
+        if (command === 'stats') {
             const [realName, stats] = await Promise.all([
                 getRealName(attackerUserId),
                 getStats(attackerUserId),
@@ -139,7 +135,7 @@ exports.lambdaHandler = async event => {
             getUsedManna(attackerUserId),
         ])
 
-        if (targetUserId === 'status') {
+        if (command === 'status') {
             const getStatusBar = (max, value, length, unit, empty) => {
                 const percentage = Math.max(max - value, 0) / max
                 return Array(length)
@@ -183,12 +179,24 @@ exports.lambdaHandler = async event => {
         }
 
         if (attackerDebuffs >= 100) {
-            throw new Error("You can't Name Battle: you're dead!")
+            return {
+                statusCode: 200,
+                body: JSON.stringify({
+                    text: "You can't Name Battle: you're dead!",
+                }),
+            }
         }
 
         if (attackerUsedManna >= 5) {
-            throw new Error("You can't Name Battle: out of attacks!")
+            return {
+                statusCode: 200,
+                body: JSON.stringify({
+                    text: "You can't Name Battle: out of attacks!",
+                }),
+            }
         }
+
+        const targetUserId = command.split('|')[0].replace(/[<@]/g, '')
 
         const [attacker, target, targetDebuffs] = await Promise.all([
             getRealName(attackerUserId),
@@ -220,7 +228,12 @@ exports.lambdaHandler = async event => {
                     recordBattle(attackerUserId, targetUserId, isKill),
                 ])
             } else {
-                throw new Error('Target is already dead!')
+                return {
+                    statusCode: 200,
+                    body: JSON.stringify({
+                        text: "You can't Name Battle: target is already dead!",
+                    }),
+                }
             }
         }
 
@@ -245,13 +258,7 @@ exports.lambdaHandler = async event => {
         let statusCode = 400
 
         if (errorMessage === 'user_not_found') {
-            errorMessage = `${targetUserId} is not a valid user`
-            statusCode = 200
-        } else if (
-            errorMessage === "You can't Name Battle: you're dead!" ||
-            errorMessage === 'Target is already dead!' ||
-            errorMessage === "You can't Name Battle: out of attacks!"
-        ) {
+            errorMessage = 'Specified user is invalid'
             statusCode = 200
         }
 
