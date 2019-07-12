@@ -88,7 +88,7 @@ exports.lambdaHandler = async event => {
         }
 
         if (targetUserId === 'leaders') {
-            const leaders = await getLeaderboard()
+            const { leaders, total } = await getLeaderboard()
             const leadersWithNames = await Promise.all(
                 leaders.map(({ slackId, ratio }) =>
                     getRealName(slackId).then(name => ({ name, ratio })),
@@ -98,7 +98,9 @@ exports.lambdaHandler = async event => {
                 statusCode: 200,
                 body: JSON.stringify({
                     response_type: 'in_channel',
-                    text: `*Leaderboard*\n${leadersWithNames
+                    text: `*Leaderboard* (_Top ${
+                        leaders.length
+                    } of ${total}_)\n${leadersWithNames
                         .map(
                             ({ name, ratio }, i) =>
                                 `${i + 1}. *${name}*: ${ratio.toFixed(3)}`,
@@ -123,8 +125,8 @@ exports.lambdaHandler = async event => {
                     text: [
                         `Stats for *${realName}*:`,
                         [
-                            `:dagger_knife: Kills: *${getStat('kills')}*`,
-                            `:skull: Deaths: *${getStat('deaths')}*`,
+                            `:trophy: Victories: *${getStat('kills')}*`,
+                            `:skull: Defeats: *${getStat('deaths')}*`,
                             `:garbage_fire: Suicides: *${getStat('suicides')}*`,
                         ].join(' | '),
                     ].join('\n'),

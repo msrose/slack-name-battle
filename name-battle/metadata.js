@@ -50,14 +50,21 @@ async function getStats(id) {
 }
 
 async function getLeaderboard() {
-    const { Items: allMetadata } = await getAllMetadataDocuments()
-    return allMetadata
-        .map(({ slack_id: slackId, kills = 0, deaths = 0 }) => ({
+    const {
+        Items: allMetadata,
+        ScannedCount: total,
+    } = await getAllMetadataDocuments()
+    const leaders = allMetadata
+        .slice(0, 10)
+        .map(({ slack_id: slackId, kills = 0, deaths = 0, suicides = 0 }) => ({
             slackId,
-            ratio: kills / deaths,
+            ratio: kills / (deaths + suicides),
         }))
         .sort((a, b) => b.ratio - a.ratio)
-        .slice(0, 5)
+    return {
+        leaders,
+        total,
+    }
 }
 
 exports.didNameChange = didNameChange

@@ -177,6 +177,21 @@ describe('Slack name battle', () => {
                 { kills: 25, deaths: 5, slack_id: 'michael' },
                 { kills: 10, deaths: 1, slack_id: 'vikram' },
             ],
+            ScannedCount: 12,
+        }))
+        const body = `text=leaders&user_id=attacker`
+        const result = await lambdaHandler(getRequest(body))
+        expect(result.statusCode).toBe(200)
+        expect(JSON.parse(result.body)).toMatchSnapshot()
+    })
+
+    it('counts suicides towards deaths on leaderboard', async () => {
+        getAllMetadataDocuments.mockImplementation(() => ({
+            Items: [
+                { kills: 25, deaths: 5, slack_id: 'michael', suicides: 3 },
+                { kills: 10, deaths: 1, slack_id: 'vikram', suicides: 10 },
+            ],
+            ScannedCount: 3,
         }))
         const body = `text=leaders&user_id=attacker`
         const result = await lambdaHandler(getRequest(body))
