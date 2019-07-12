@@ -21,7 +21,15 @@ function extractUserId(token) {
 function getResponseBody(text, responseType) {
     return JSON.stringify({
         response_type: responseType,
-        text,
+        blocks: [
+            {
+                type: 'section',
+                text: {
+                    type: 'mrkdwn',
+                    text,
+                },
+            },
+        ],
     })
 }
 

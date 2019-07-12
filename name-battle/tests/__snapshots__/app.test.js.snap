@@ -2,205 +2,405 @@
 
 exports[`Slack name battle conducts a name battle between aaaaa and a 1`] = `
 Object {
-  "response_type": "in_channel",
-  "text": "<@a> challenges <@aaaaa> to a Name Battle! :collision: *_a_* attacks *_aaaaa_* in a parallel universe...
+  "blocks": Array [
+    Object {
+      "text": Object {
+        "text": "<@a> challenges <@aaaaa> to a Name Battle! :collision: *_a_* attacks *_aaaaa_* in a parallel universe...
 aaaaa is barely affected, with *80.00%* life force remaining! A paltry attack! :joy:",
+        "type": "mrkdwn",
+      },
+      "type": "section",
+    },
+  ],
+  "response_type": "in_channel",
 }
 `;
 
 exports[`Slack name battle conducts a name battle between aaaaa and aa 1`] = `
 Object {
-  "response_type": "in_channel",
-  "text": "<@aa> challenges <@aaaaa> to a Name Battle! :collision: *_aa_* attacks *_aaaaa_* in a parallel universe...
+  "blocks": Array [
+    Object {
+      "text": Object {
+        "text": "<@aa> challenges <@aaaaa> to a Name Battle! :collision: *_aa_* attacks *_aaaaa_* in a parallel universe...
 aaaaa is wounded, with *60.00%* life force remaining! A worrying attack! :gun:",
+        "type": "mrkdwn",
+      },
+      "type": "section",
+    },
+  ],
+  "response_type": "in_channel",
 }
 `;
 
 exports[`Slack name battle conducts a name battle between michael and michael 1`] = `
 Object {
-  "response_type": "in_channel",
-  "text": "<@michael> challenges <@michael> to a Name Battle! :collision: *_michael_* attacks *_michael_* in a parallel universe...
+  "blocks": Array [
+    Object {
+      "text": Object {
+        "text": "<@michael> challenges <@michael> to a Name Battle! :collision: *_michael_* attacks *_michael_* in a parallel universe...
 michael is dead, with *0%* life force remaining! A devastating attack! :skull:",
+        "type": "mrkdwn",
+      },
+      "type": "section",
+    },
+  ],
+  "response_type": "in_channel",
 }
 `;
 
 exports[`Slack name battle conducts a name battle between target and attacker 1`] = `
 Object {
-  "response_type": "in_channel",
-  "text": "<@attacker> challenges <@target> to a Name Battle! :collision: *_attacker_* attacks *_target_* in a parallel universe...
+  "blocks": Array [
+    Object {
+      "text": Object {
+        "text": "<@attacker> challenges <@target> to a Name Battle! :collision: *_attacker_* attacks *_target_* in a parallel universe...
 target is critically injured, with *16.67%* life force remaining! A destructive attack! :face_with_head_bandage:",
+        "type": "mrkdwn",
+      },
+      "type": "section",
+    },
+  ],
+  "response_type": "in_channel",
 }
 `;
 
 exports[`Slack name battle counts suicides towards deaths on leaderboard 1`] = `
 Object {
-  "response_type": "in_channel",
-  "text": "*Leaderboard* (_Top 2 of 3_)
+  "blocks": Array [
+    Object {
+      "text": Object {
+        "text": "*Leaderboard* (_Top 2 of 3_)
 1. *michael*: 3.125
 2. *vikram*: 0.909",
+        "type": "mrkdwn",
+      },
+      "type": "section",
+    },
+  ],
+  "response_type": "in_channel",
 }
 `;
 
 exports[`Slack name battle extracts slack IDs correctly from payload 1`] = `
 Object {
-  "response_type": "in_channel",
-  "text": "<@attacker> challenges <@target> to a Name Battle! :collision: *_attacker_* attacks *_target_* in a parallel universe...
+  "blocks": Array [
+    Object {
+      "text": Object {
+        "text": "<@attacker> challenges <@target> to a Name Battle! :collision: *_attacker_* attacks *_target_* in a parallel universe...
 target is critically injured, with *16.67%* life force remaining! A destructive attack! :face_with_head_bandage:",
+        "type": "mrkdwn",
+      },
+      "type": "section",
+    },
+  ],
+  "response_type": "in_channel",
 }
 `;
 
 exports[`Slack name battle kills the attacker if they change their name 1`] = `
 Object {
-  "response_type": "in_channel",
-  "text": "<@attacker> challenges <@target> to a Name Battle! :collision: *_attacker_* attacks *_target_* in a parallel universe...
+  "blocks": Array [
+    Object {
+      "text": Object {
+        "text": "<@attacker> challenges <@target> to a Name Battle! :collision: *_attacker_* attacks *_target_* in a parallel universe...
 :redsiren: attacker changed their name! For shame! target is unaffected, and attacker dies instead! :redsiren:",
+        "type": "mrkdwn",
+      },
+      "type": "section",
+    },
+  ],
+  "response_type": "in_channel",
 }
 `;
 
 exports[`Slack name battle sends an error message if the attacker is dead 1`] = `
 Object {
+  "blocks": Array [
+    Object {
+      "text": Object {
+        "text": "You can't Name Battle: you're dead!",
+        "type": "mrkdwn",
+      },
+      "type": "section",
+    },
+  ],
   "response_type": "ephemeral",
-  "text": "You can't Name Battle: you're dead!",
 }
 `;
 
 exports[`Slack name battle sends an error message if the target is dead 1`] = `
 Object {
+  "blocks": Array [
+    Object {
+      "text": Object {
+        "text": "You can't Name Battle: target is already dead!",
+        "type": "mrkdwn",
+      },
+      "type": "section",
+    },
+  ],
   "response_type": "ephemeral",
-  "text": "You can't Name Battle: target is already dead!",
 }
 `;
 
 exports[`Slack name battle sends an error when there is a signature mismatch 1`] = `
 Object {
+  "blocks": Array [
+    Object {
+      "text": Object {
+        "text": "Could not conduct Name Battle! Error: Forbidden: signature mismatch.",
+        "type": "mrkdwn",
+      },
+      "type": "section",
+    },
+  ],
   "response_type": "ephemeral",
-  "text": "Could not conduct Name Battle! Error: Forbidden: signature mismatch.",
 }
 `;
 
 exports[`Slack name battle sends an errors message if the attacker is out of manna 1`] = `
 Object {
+  "blocks": Array [
+    Object {
+      "text": Object {
+        "text": "You can't Name Battle: out of attacks!",
+        "type": "mrkdwn",
+      },
+      "type": "section",
+    },
+  ],
   "response_type": "ephemeral",
-  "text": "You can't Name Battle: out of attacks!",
 }
 `;
 
 exports[`Slack name battle shows a health bar when the attacker is at -22% health 1`] = `
 Object {
-  "response_type": "ephemeral",
-  "text": "Status for *attacker*:
+  "blocks": Array [
+    Object {
+      "text": Object {
+        "text": "Status for *attacker*:
 \`Life Force\`: [:black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart:] 0.00%
 \`   Attacks\`: [:collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision:] 100.00%",
+        "type": "mrkdwn",
+      },
+      "type": "section",
+    },
+  ],
+  "response_type": "ephemeral",
 }
 `;
 
 exports[`Slack name battle shows a health bar when the attacker is at 0% health 1`] = `
 Object {
-  "response_type": "ephemeral",
-  "text": "Status for *attacker*:
+  "blocks": Array [
+    Object {
+      "text": Object {
+        "text": "Status for *attacker*:
 \`Life Force\`: [:black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart:] 0.00%
 \`   Attacks\`: [:collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision:] 100.00%",
+        "type": "mrkdwn",
+      },
+      "type": "section",
+    },
+  ],
+  "response_type": "ephemeral",
 }
 `;
 
 exports[`Slack name battle shows a health bar when the attacker is at 34% health 1`] = `
 Object {
-  "response_type": "ephemeral",
-  "text": "Status for *attacker*:
+  "blocks": Array [
+    Object {
+      "text": Object {
+        "text": "Status for *attacker*:
 \`Life Force\`: [:heart::heart::heart::heart::heart::heart::heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart:] 34.00%
 \`   Attacks\`: [:collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision:] 100.00%",
+        "type": "mrkdwn",
+      },
+      "type": "section",
+    },
+  ],
+  "response_type": "ephemeral",
 }
 `;
 
 exports[`Slack name battle shows a health bar when the attacker is at 77% health 1`] = `
 Object {
-  "response_type": "ephemeral",
-  "text": "Status for *attacker*:
+  "blocks": Array [
+    Object {
+      "text": Object {
+        "text": "Status for *attacker*:
 \`Life Force\`: [:heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::black_heart::black_heart::black_heart::black_heart:] 77.00%
 \`   Attacks\`: [:collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision:] 100.00%",
+        "type": "mrkdwn",
+      },
+      "type": "section",
+    },
+  ],
+  "response_type": "ephemeral",
 }
 `;
 
 exports[`Slack name battle shows a health bar when the attacker is at 100% health 1`] = `
 Object {
-  "response_type": "ephemeral",
-  "text": "Status for *attacker*:
+  "blocks": Array [
+    Object {
+      "text": Object {
+        "text": "Status for *attacker*:
 \`Life Force\`: [:heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart:] 100.00%
 \`   Attacks\`: [:collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision:] 100.00%",
+        "type": "mrkdwn",
+      },
+      "type": "section",
+    },
+  ],
+  "response_type": "ephemeral",
 }
 `;
 
 exports[`Slack name battle shows a help message if help is given as the text 1`] = `
 Object {
+  "blocks": Array [
+    Object {
+      "text": Object {
+        "text": "Usage: \`/name-battle @<target> | help | leaders | stats [@<target>] | status\`",
+        "type": "mrkdwn",
+      },
+      "type": "section",
+    },
+  ],
   "response_type": "ephemeral",
-  "text": "Usage: \`/name-battle @<target> | help | leaders | stats [@<target>] | status\`",
 }
 `;
 
 exports[`Slack name battle shows a help message if no text is given 1`] = `
 Object {
+  "blocks": Array [
+    Object {
+      "text": Object {
+        "text": "Usage: \`/name-battle @<target> | help | leaders | stats [@<target>] | status\`",
+        "type": "mrkdwn",
+      },
+      "type": "section",
+    },
+  ],
   "response_type": "ephemeral",
-  "text": "Usage: \`/name-battle @<target> | help | leaders | stats [@<target>] | status\`",
 }
 `;
 
 exports[`Slack name battle shows a laederboard when the leaders command is given 1`] = `
 Object {
-  "response_type": "in_channel",
-  "text": "*Leaderboard* (_Top 2 of 12_)
+  "blocks": Array [
+    Object {
+      "text": Object {
+        "text": "*Leaderboard* (_Top 2 of 12_)
 1. *vikram*: 10.000
 2. *michael*: 5.000",
+        "type": "mrkdwn",
+      },
+      "type": "section",
+    },
+  ],
+  "response_type": "in_channel",
 }
 `;
 
 exports[`Slack name battle shows a manna bar when the attacker has used 0 manna 1`] = `
 Object {
-  "response_type": "ephemeral",
-  "text": "Status for *attacker*:
+  "blocks": Array [
+    Object {
+      "text": Object {
+        "text": "Status for *attacker*:
 \`Life Force\`: [:heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart:] 100.00%
 \`   Attacks\`: [:collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision:] 100.00%",
+        "type": "mrkdwn",
+      },
+      "type": "section",
+    },
+  ],
+  "response_type": "ephemeral",
 }
 `;
 
 exports[`Slack name battle shows a manna bar when the attacker has used 2 manna 1`] = `
 Object {
-  "response_type": "ephemeral",
-  "text": "Status for *attacker*:
+  "blocks": Array [
+    Object {
+      "text": Object {
+        "text": "Status for *attacker*:
 \`Life Force\`: [:heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart:] 100.00%
 \`   Attacks\`: [:collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::anger::anger::anger::anger::anger::anger::anger::anger:] 60.00%",
+        "type": "mrkdwn",
+      },
+      "type": "section",
+    },
+  ],
+  "response_type": "ephemeral",
 }
 `;
 
 exports[`Slack name battle shows a manna bar when the attacker has used 5 manna 1`] = `
 Object {
-  "response_type": "ephemeral",
-  "text": "Status for *attacker*:
+  "blocks": Array [
+    Object {
+      "text": Object {
+        "text": "Status for *attacker*:
 \`Life Force\`: [:heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart:] 100.00%
 \`   Attacks\`: [:anger::anger::anger::anger::anger::anger::anger::anger::anger::anger::anger::anger::anger::anger::anger::anger::anger::anger::anger::anger:] 0.00%",
+        "type": "mrkdwn",
+      },
+      "type": "section",
+    },
+  ],
+  "response_type": "ephemeral",
 }
 `;
 
 exports[`Slack name battle shows a manna bar when the attacker has used 6 manna 1`] = `
 Object {
-  "response_type": "ephemeral",
-  "text": "Status for *attacker*:
+  "blocks": Array [
+    Object {
+      "text": Object {
+        "text": "Status for *attacker*:
 \`Life Force\`: [:heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart:] 100.00%
 \`   Attacks\`: [:anger::anger::anger::anger::anger::anger::anger::anger::anger::anger::anger::anger::anger::anger::anger::anger::anger::anger::anger::anger:] 0.00%",
+        "type": "mrkdwn",
+      },
+      "type": "section",
+    },
+  ],
+  "response_type": "ephemeral",
 }
 `;
 
 exports[`Slack name battle shows stats for another user if specified 1`] = `
 Object {
-  "response_type": "in_channel",
-  "text": "Stats for *target*:
+  "blocks": Array [
+    Object {
+      "text": Object {
+        "text": "Stats for *target*:
 :trophy: Victories: *2* | :skull: Defeats: *3* | :garbage_fire: Suicides: *4*",
+        "type": "mrkdwn",
+      },
+      "type": "section",
+    },
+  ],
+  "response_type": "in_channel",
 }
 `;
 
 exports[`Slack name battle shows stats when the stats command is given 1`] = `
 Object {
-  "response_type": "in_channel",
-  "text": "Stats for *attacker*:
+  "blocks": Array [
+    Object {
+      "text": Object {
+        "text": "Stats for *attacker*:
 :trophy: Victories: *2* | :skull: Defeats: *3* | :garbage_fire: Suicides: *4*",
+        "type": "mrkdwn",
+      },
+      "type": "section",
+    },
+  ],
+  "response_type": "in_channel",
 }
 `;
