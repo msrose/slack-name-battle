@@ -16,7 +16,12 @@ const {
     isRequestSignatureValid,
     logError,
 } = require('./utils')
-const { getRealName, extractUserId } = require('./slack')
+const {
+    getRealName,
+    extractUserId,
+    getEphemeralResponse,
+    getInChannelResponse,
+} = require('./slack')
 
 function getResponse(
     attackerId,
@@ -65,9 +70,9 @@ async function handleCommand(tokens, attackerUserId) {
         ].sort()
         return {
             statusCode: 200,
-            body: JSON.stringify({
-                text: `Usage: \`/name-battle ${commands.join(' | ')}\``,
-            }),
+            body: getEphemeralResponse(
+                `Usage: \`/name-battle ${commands.join(' | ')}\``,
+            ),
         }
     }
 
@@ -80,9 +85,8 @@ async function handleCommand(tokens, attackerUserId) {
         )
         return {
             statusCode: 200,
-            body: JSON.stringify({
-                response_type: 'in_channel',
-                text: `*Leaderboard* (_Top ${
+            body: getInChannelResponse(
+                `*Leaderboard* (_Top ${
                     leaders.length
                 } of ${total}_)\n${leadersWithNames
                     .map(
@@ -90,7 +94,7 @@ async function handleCommand(tokens, attackerUserId) {
                             `${i + 1}. *${name}*: ${ratio.toFixed(3)}`,
                     )
                     .join('\n')}`,
-            }),
+            ),
         }
     }
 
@@ -104,9 +108,8 @@ async function handleCommand(tokens, attackerUserId) {
         const getStat = stat => stats[stat] || 0
         return {
             statusCode: 200,
-            body: JSON.stringify({
-                response_type: 'in_channel',
-                text: [
+            body: getInChannelResponse(
+                [
                     `Stats for *${realName}*:`,
                     [
                         `:trophy: Victories: *${getStat('kills')}*`,
@@ -114,7 +117,7 @@ async function handleCommand(tokens, attackerUserId) {
                         `:garbage_fire: Suicides: *${getStat('suicides')}*`,
                     ].join(' | '),
                 ].join('\n'),
-            }),
+            ),
         }
     }
 
@@ -152,8 +155,8 @@ async function handleCommand(tokens, attackerUserId) {
         const attackerName = await getRealName(attackerUserId)
         return {
             statusCode: 200,
-            body: JSON.stringify({
-                text: [
+            body: getEphemeralResponse(
+                [
                     `Status for *${attackerName}*:`,
                     `\`${'Life Force'.padStart(
                         10,
@@ -162,7 +165,7 @@ async function handleCommand(tokens, attackerUserId) {
                         10,
                     )}\`: [${mannaBar}] ${fixedManna}%`,
                 ].join('\n'),
-            }),
+            ),
         }
     }
 }
@@ -176,18 +179,16 @@ async function conductNameBattle(attackerUserId, targetUserId) {
     if (attackerDebuffs >= 100) {
         return {
             statusCode: 200,
-            body: JSON.stringify({
-                text: "You can't Name Battle: you're dead!",
-            }),
+            body: getEphemeralResponse("You can't Name Battle: you're dead!"),
         }
     }
 
     if (attackerUsedManna >= 5) {
         return {
             statusCode: 200,
-            body: JSON.stringify({
-                text: "You can't Name Battle: out of attacks!",
-            }),
+            body: getEphemeralResponse(
+                "You can't Name Battle: out of attacks!",
+            ),
         }
     }
 
@@ -219,18 +220,17 @@ async function conductNameBattle(attackerUserId, targetUserId) {
         } else {
             return {
                 statusCode: 200,
-                body: JSON.stringify({
-                    text: "You can't Name Battle: target is already dead!",
-                }),
+                body: getEphemeralResponse(
+                    "You can't Name Battle: target is already dead!",
+                ),
             }
         }
     }
 
     return {
         statusCode: 200,
-        body: JSON.stringify({
-            response_type: 'in_channel',
-            text: getResponse(
+        body: getInChannelResponse(
+            getResponse(
                 attackerUserId,
                 targetUserId,
                 attacker,
@@ -238,7 +238,7 @@ async function conductNameBattle(attackerUserId, targetUserId) {
                 newLifeForce,
                 didAttackerChangeName,
             ),
-        }),
+        ),
     }
 }
 
@@ -284,9 +284,9 @@ exports.lambdaHandler = async event => {
 
         response = {
             statusCode,
-            body: JSON.stringify({
-                text: `Could not conduct Name Battle! Error: ${errorMessage}.`,
-            }),
+            body: getEphemeralResponse(
+                `Could not conduct Name Battle! Error: ${errorMessage}.`,
+            ),
         }
     }
 

@@ -59,30 +59,35 @@ Object {
 
 exports[`Slack name battle sends an error message if the attacker is dead 1`] = `
 Object {
+  "response_type": "ephemeral",
   "text": "You can't Name Battle: you're dead!",
 }
 `;
 
 exports[`Slack name battle sends an error message if the target is dead 1`] = `
 Object {
+  "response_type": "ephemeral",
   "text": "You can't Name Battle: target is already dead!",
 }
 `;
 
 exports[`Slack name battle sends an error when there is a signature mismatch 1`] = `
 Object {
+  "response_type": "ephemeral",
   "text": "Could not conduct Name Battle! Error: Forbidden: signature mismatch.",
 }
 `;
 
 exports[`Slack name battle sends an errors message if the attacker is out of manna 1`] = `
 Object {
+  "response_type": "ephemeral",
   "text": "You can't Name Battle: out of attacks!",
 }
 `;
 
 exports[`Slack name battle shows a health bar when the attacker is at -22% health 1`] = `
 Object {
+  "response_type": "ephemeral",
   "text": "Status for *attacker*:
 \`Life Force\`: [:black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart:] 0.00%
 \`   Attacks\`: [:collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision:] 100.00%",
@@ -91,6 +96,7 @@ Object {
 
 exports[`Slack name battle shows a health bar when the attacker is at 0% health 1`] = `
 Object {
+  "response_type": "ephemeral",
   "text": "Status for *attacker*:
 \`Life Force\`: [:black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart:] 0.00%
 \`   Attacks\`: [:collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision:] 100.00%",
@@ -99,6 +105,7 @@ Object {
 
 exports[`Slack name battle shows a health bar when the attacker is at 34% health 1`] = `
 Object {
+  "response_type": "ephemeral",
   "text": "Status for *attacker*:
 \`Life Force\`: [:heart::heart::heart::heart::heart::heart::heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart::black_heart:] 34.00%
 \`   Attacks\`: [:collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision:] 100.00%",
@@ -107,6 +114,7 @@ Object {
 
 exports[`Slack name battle shows a health bar when the attacker is at 77% health 1`] = `
 Object {
+  "response_type": "ephemeral",
   "text": "Status for *attacker*:
 \`Life Force\`: [:heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::black_heart::black_heart::black_heart::black_heart:] 77.00%
 \`   Attacks\`: [:collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision:] 100.00%",
@@ -115,6 +123,7 @@ Object {
 
 exports[`Slack name battle shows a health bar when the attacker is at 100% health 1`] = `
 Object {
+  "response_type": "ephemeral",
   "text": "Status for *attacker*:
 \`Life Force\`: [:heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart:] 100.00%
 \`   Attacks\`: [:collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision:] 100.00%",
@@ -123,12 +132,14 @@ Object {
 
 exports[`Slack name battle shows a help message if help is given as the text 1`] = `
 Object {
+  "response_type": "ephemeral",
   "text": "Usage: \`/name-battle @<target> | help | leaders | stats [@<target>] | status\`",
 }
 `;
 
 exports[`Slack name battle shows a help message if no text is given 1`] = `
 Object {
+  "response_type": "ephemeral",
   "text": "Usage: \`/name-battle @<target> | help | leaders | stats [@<target>] | status\`",
 }
 `;
@@ -144,6 +155,7 @@ Object {
 
 exports[`Slack name battle shows a manna bar when the attacker has used 0 manna 1`] = `
 Object {
+  "response_type": "ephemeral",
   "text": "Status for *attacker*:
 \`Life Force\`: [:heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart:] 100.00%
 \`   Attacks\`: [:collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision:] 100.00%",
@@ -152,6 +164,7 @@ Object {
 
 exports[`Slack name battle shows a manna bar when the attacker has used 2 manna 1`] = `
 Object {
+  "response_type": "ephemeral",
   "text": "Status for *attacker*:
 \`Life Force\`: [:heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart:] 100.00%
 \`   Attacks\`: [:collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::collision::anger::anger::anger::anger::anger::anger::anger::anger:] 60.00%",
@@ -160,6 +173,7 @@ Object {
 
 exports[`Slack name battle shows a manna bar when the attacker has used 5 manna 1`] = `
 Object {
+  "response_type": "ephemeral",
   "text": "Status for *attacker*:
 \`Life Force\`: [:heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart:] 100.00%
 \`   Attacks\`: [:anger::anger::anger::anger::anger::anger::anger::anger::anger::anger::anger::anger::anger::anger::anger::anger::anger::anger::anger::anger:] 0.00%",
@@ -168,6 +182,7 @@ Object {
 
 exports[`Slack name battle shows a manna bar when the attacker has used 6 manna 1`] = `
 Object {
+  "response_type": "ephemeral",
   "text": "Status for *attacker*:
 \`Life Force\`: [:heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart:] 100.00%
 \`   Attacks\`: [:anger::anger::anger::anger::anger::anger::anger::anger::anger::anger::anger::anger::anger::anger::anger::anger::anger::anger::anger::anger:] 0.00%",

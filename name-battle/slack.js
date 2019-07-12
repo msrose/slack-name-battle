@@ -18,5 +18,22 @@ function extractUserId(token) {
     return token.split('|')[0].replace(/[<@]/g, '')
 }
 
+function getResponseBody(text, responseType) {
+    return JSON.stringify({
+        response_type: responseType,
+        text,
+    })
+}
+
+function getInChannelResponse(text) {
+    return getResponseBody(text, 'in_channel')
+}
+
+function getEphemeralResponse(text) {
+    return getResponseBody(text, 'ephemeral')
+}
+
 exports.getRealName = getRealName
 exports.extractUserId = extractUserId
+exports.getInChannelResponse = getInChannelResponse
+exports.getEphemeralResponse = getEphemeralResponse
