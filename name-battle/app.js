@@ -16,7 +16,7 @@ const {
     isRequestSignatureValid,
     logError,
 } = require('./utils')
-const { getRealName } = require('./slack')
+const { getRealName, extractUserId } = require('./slack')
 
 function getResponse(
     attackerId,
@@ -56,11 +56,17 @@ async function handleCommand(tokens, attackerUserId) {
     const command = tokens[0]
 
     if (!command || command === 'help') {
+        const commands = [
+            '@<target>',
+            'status',
+            'stats [@<target>]',
+            'help',
+            'leaders',
+        ].sort()
         return {
             statusCode: 200,
             body: JSON.stringify({
-                text:
-                    'Usage: `/name-battle @<target> | status | stats | help | leaders`',
+                text: `Usage: \`/name-battle ${commands.join(' | ')}\``,
             }),
         }
     }
@@ -89,9 +95,11 @@ async function handleCommand(tokens, attackerUserId) {
     }
 
     if (command === 'stats') {
+        let [, userId = attackerUserId] = tokens
+        userId = extractUserId(userId)
         const [realName, stats] = await Promise.all([
-            getRealName(attackerUserId),
-            getStats(attackerUserId),
+            getRealName(userId),
+            getStats(userId),
         ])
         const getStat = stat => stats[stat] || 0
         return {
@@ -260,7 +268,7 @@ exports.lambdaHandler = async event => {
             return result
         }
 
-        const targetUserId = tokens[0].split('|')[0].replace(/[<@]/g, '')
+        const targetUserId = extractUserId(tokens[0])
 
         response = await conductNameBattle(attackerUserId, targetUserId)
     } catch (err) {

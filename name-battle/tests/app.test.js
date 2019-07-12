@@ -180,6 +180,16 @@ describe('Slack name battle', () => {
         expect(JSON.parse(result.body)).toMatchSnapshot()
     })
 
+    it('shows stats for another user if specified', async () => {
+        getMetadataDocumentBySlackId.mockImplementation(() => ({
+            Item: { kills: 2, deaths: 3, suicides: 4 },
+        }))
+        const body = `text=stats%20<@target|targethandle>&user_id=attacker`
+        const result = await lambdaHandler(getRequest(body))
+        expect(result.statusCode).toBe(200)
+        expect(JSON.parse(result.body)).toMatchSnapshot()
+    })
+
     it('shows a laederboard when the leaders command is given', async () => {
         getAllMetadataDocuments.mockImplementation(() => ({
             Items: [

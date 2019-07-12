@@ -14,4 +14,9 @@ async function getRealName(id) {
     return userResponse.data.user.profile.real_name
 }
 
+function extractUserId(token) {
+    return token.split('|')[0].replace(/[<@]/g, '')
+}
+
 exports.getRealName = getRealName
+exports.extractUserId = extractUserId

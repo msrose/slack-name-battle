@@ -123,13 +123,13 @@ Object {
 
 exports[`Slack name battle shows a help message if help is given as the text 1`] = `
 Object {
-  "text": "Usage: \`/name-battle @<target> | status | stats | help | leaders\`",
+  "text": "Usage: \`/name-battle @<target> | help | leaders | stats [@<target>] | status\`",
 }
 `;
 
 exports[`Slack name battle shows a help message if no text is given 1`] = `
 Object {
-  "text": "Usage: \`/name-battle @<target> | status | stats | help | leaders\`",
+  "text": "Usage: \`/name-battle @<target> | help | leaders | stats [@<target>] | status\`",
 }
 `;
 
@@ -171,6 +171,14 @@ Object {
   "text": "Status for *attacker*:
 \`Life Force\`: [:heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart::heart:] 100.00%
 \`   Attacks\`: [:anger::anger::anger::anger::anger::anger::anger::anger::anger::anger::anger::anger::anger::anger::anger::anger::anger::anger::anger::anger:] 0.00%",
+}
+`;
+
+exports[`Slack name battle shows stats for another user if specified 1`] = `
+Object {
+  "response_type": "in_channel",
+  "text": "Stats for *target*:
+:trophy: Victories: *2* | :skull: Defeats: *3* | :garbage_fire: Suicides: *4*",
 }
 `;
 
