@@ -67,7 +67,9 @@ async function getLeaderboard() {
     }
 }
 
-exports.didNameChange = didNameChange
-exports.recordBattle = recordBattle
-exports.getStats = getStats
-exports.getLeaderboard = getLeaderboard
+module.exports = {
+    didNameChange,
+    recordBattle,
+    getStats,
+    getLeaderboard,
+}

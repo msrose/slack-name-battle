@@ -94,9 +94,11 @@ function getAllMetadataDocuments() {
     })
 }
 
-exports.getBattleDocumentsBySlackId = getBattleDocumentsBySlackId
-exports.putBattleDocumentBySlackId = putBattleDocumentBySlackId
-exports.getMetadataDocumentBySlackId = getMetadataDocumentBySlackId
-exports.updateMetadataDocumentBySlackId = updateMetadataDocumentBySlackId
-exports.incrementMetadataDocumentFieldsBySlackId = incrementMetadataDocumentFieldsBySlackId
-exports.getAllMetadataDocuments = getAllMetadataDocuments
+module.exports = {
+    getBattleDocumentsBySlackId,
+    putBattleDocumentBySlackId,
+    getMetadataDocumentBySlackId,
+    updateMetadataDocumentBySlackId,
+    incrementMetadataDocumentFieldsBySlackId,
+    getAllMetadataDocuments,
+}

@@ -25,7 +25,9 @@ function logError(err) {
     console.log(err)
 }
 
-exports.getRandomNumber = getRandomNumber
-exports.getSignature = getSignature
-exports.isRequestSignatureValid = isRequestSignatureValid
-exports.logError = logError
+module.exports = {
+    getRandomNumber,
+    getSignature,
+    isRequestSignatureValid,
+    logError,
+}

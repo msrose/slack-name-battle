@@ -41,7 +41,9 @@ function getEphemeralResponse(text) {
     return getResponseBody(text, 'ephemeral')
 }
 
-exports.getRealName = getRealName
-exports.extractUserId = extractUserId
-exports.getInChannelResponse = getInChannelResponse
-exports.getEphemeralResponse = getEphemeralResponse
+module.exports = {
+    getRealName,
+    extractUserId,
+    getInChannelResponse,
+    getEphemeralResponse,
+}

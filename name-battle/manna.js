@@ -17,5 +17,7 @@ async function getUsedManna(id) {
     return items.reduce((total, { manna = 0 }) => total + manna, 0)
 }
 
-exports.useManna = useManna
-exports.getUsedManna = getUsedManna
+module.exports = {
+    useManna,
+    getUsedManna,
+}

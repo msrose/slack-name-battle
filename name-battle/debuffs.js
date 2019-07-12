@@ -19,5 +19,7 @@ function putDebuff(id, value, duration = 5) {
     )
 }
 
-exports.getTotalDebuffs = getTotalDebuffs
-exports.putDebuff = putDebuff
+module.exports = {
+    getTotalDebuffs,
+    putDebuff,
+}
