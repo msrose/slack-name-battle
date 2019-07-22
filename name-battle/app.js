@@ -61,7 +61,7 @@ function getResponse(
     return lines.join('\n')
 }
 
-async function handleCommand(tokens, attackerUserId) {
+async function handleCommand(tokens, initiatorUserId) {
     const command = tokens[0]
 
     if (!command || command === 'help') {
@@ -105,7 +105,7 @@ async function handleCommand(tokens, attackerUserId) {
     }
 
     if (command === 'stats') {
-        let [, userId = attackerUserId] = tokens
+        let [, userId = initiatorUserId] = tokens
         userId = extractUserId(userId)
         const [realName, stats] = await Promise.all([
             getRealName(userId),
@@ -129,8 +129,8 @@ async function handleCommand(tokens, attackerUserId) {
 
     if (command === 'status') {
         const [attackerDebuffs, attackerUsedManna] = await Promise.all([
-            getTotalDebuffs(attackerUserId),
-            getUsedManna(attackerUserId),
+            getTotalDebuffs(initiatorUserId),
+            getUsedManna(initiatorUserId),
         ])
 
         const getStatusBar = (max, value, length, unit, empty) => {
@@ -158,7 +158,7 @@ async function handleCommand(tokens, attackerUserId) {
         const fixedHealth = (health * 100).toFixed(2)
         const manna = Math.max(5 - attackerUsedManna, 0) / 5
         const fixedManna = (manna * 100).toFixed(2)
-        const attackerName = await getRealName(attackerUserId)
+        const attackerName = await getRealName(initiatorUserId)
         return {
             statusCode: 200,
             body: getEphemeralResponse(
@@ -178,7 +178,7 @@ async function handleCommand(tokens, attackerUserId) {
     if (command === 'pure') {
         const [, arg1, arg2] = tokens
 
-        let attacker = arg2 ? arg1 : `<@${attackerUserId}|placeholder>`
+        let attacker = arg2 ? arg1 : `<@${initiatorUserId}|placeholder>`
         let target = arg2 || arg1
 
         const targetUserId = extractUserId(target)
@@ -188,11 +188,11 @@ async function handleCommand(tokens, attackerUserId) {
             target = await getRealName(targetUserId)
         }
 
-        const attackerId = extractUserId(attacker)
-        const isAttackerPure = attackerId === attacker
+        const attackerUserId = extractUserId(attacker)
+        const isAttackerPure = attackerUserId === attacker
 
         if (!isAttackerPure) {
-            attacker = await getRealName(attackerId)
+            attacker = await getRealName(attackerUserId)
         }
 
         const lifeForce = nameBattle({ attacker, target })
@@ -201,7 +201,7 @@ async function handleCommand(tokens, attackerUserId) {
             statusCode: 200,
             body: getInChannelResponse(
                 getResponse(
-                    attackerId,
+                    attackerUserId,
                     targetUserId,
                     attacker,
                     target,
@@ -210,7 +210,7 @@ async function handleCommand(tokens, attackerUserId) {
                     isAttackerPure,
                     isTargetPure,
                 ),
-                `Pure battle initiated by *<@${attackerUserId}>*. No stats recorded.`,
+                `Pure battle initiated by *<@${initiatorUserId}>*. No stats recorded.`,
             ),
         }
     }
