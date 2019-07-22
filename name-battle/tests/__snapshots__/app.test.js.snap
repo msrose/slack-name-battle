@@ -69,7 +69,7 @@ Object {
   "blocks": Array [
     Object {
       "text": Object {
-        "text": "attackerstring challenges <@target> to a Name Battle! :collision: *_attackerstring_* attacks *_target_* in a parallel universe...
+        "text": "\\"attackerstring\\" challenges <@target> to a Name Battle! :collision: *_attackerstring_* attacks *_target_* in a parallel universe...
 target is dead, with *0%* life force remaining! A devastating attack! :skull:",
         "type": "mrkdwn",
       },
@@ -94,7 +94,7 @@ Object {
   "blocks": Array [
     Object {
       "text": Object {
-        "text": "<@attacker> challenges targetstring to a Name Battle! :collision: *_attacker_* attacks *_targetstring_* in a parallel universe...
+        "text": "<@attacker> challenges \\"targetstring\\" to a Name Battle! :collision: *_attacker_* attacks *_targetstring_* in a parallel universe...
 targetstring is wounded, with *58.33%* life force remaining! A worrying attack! :gun:",
         "type": "mrkdwn",
       },
@@ -119,7 +119,7 @@ Object {
   "blocks": Array [
     Object {
       "text": Object {
-        "text": "<@attacker> challenges llamas to a Name Battle! :collision: *_attacker_* attacks *_llamas_* in a parallel universe...
+        "text": "<@attacker> challenges \\"llamas\\" to a Name Battle! :collision: *_attacker_* attacks *_llamas_* in a parallel universe...
 llamas is wounded, with *66.67%* life force remaining! A worrying attack! :gun:",
         "type": "mrkdwn",
       },

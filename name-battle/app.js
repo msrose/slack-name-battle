@@ -33,8 +33,8 @@ function getResponse(
     isAttackerPure = false,
     isTargetPure = false,
 ) {
-    const attacker = isAttackerPure ? attackerName : `<@${attackerId}>`
-    const target = isTargetPure ? targetName : `<@${targetId}>`
+    const attacker = isAttackerPure ? `"${attackerName}"` : `<@${attackerId}>`
+    const target = isTargetPure ? `"${targetName}"` : `<@${targetId}>`
     const lines = [
         `${attacker} challenges ${target} to a Name Battle! :collision: *_${attackerName}_* attacks *_${targetName}_* in a parallel universe...`,
     ]
