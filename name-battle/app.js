@@ -30,9 +30,13 @@ function getResponse(
     targetName,
     lifeForce,
     didAttackerChangeName,
+    isAttackerPure = false,
+    isTargetPure = false,
 ) {
+    const attacker = isAttackerPure ? attackerName : `<@${attackerId}>`
+    const target = isTargetPure ? targetName : `<@${targetId}>`
     const lines = [
-        `<@${attackerId}> challenges <@${targetId}> to a Name Battle! :collision: *_${attackerName}_* attacks *_${targetName}_* in a parallel universe...`,
+        `${attacker} challenges ${target} to a Name Battle! :collision: *_${attackerName}_* attacks *_${targetName}_* in a parallel universe...`,
     ]
     if (!didAttackerChangeName) {
         const fixedLifeForce = lifeForce.toFixed(2)
@@ -67,6 +71,8 @@ async function handleCommand(tokens, attackerUserId) {
             'stats [@<target>]',
             'help',
             'leaders',
+            'pure @target/string',
+            'pure @attacker/string @target/string',
         ].sort()
         return {
             statusCode: 200,
@@ -165,6 +171,46 @@ async function handleCommand(tokens, attackerUserId) {
                         10,
                     )}\`: [${mannaBar}] ${fixedManna}%`,
                 ].join('\n'),
+            ),
+        }
+    }
+
+    if (command === 'pure') {
+        const [, arg1, arg2] = tokens
+
+        let attacker = arg2 ? arg1 : `<@${attackerUserId}|placeholder>`
+        let target = arg2 || arg1
+
+        const targetUserId = extractUserId(target)
+        const isTargetPure = targetUserId === target
+
+        if (!isTargetPure) {
+            target = await getRealName(targetUserId)
+        }
+
+        const attackerId = extractUserId(attacker)
+        const isAttackerPure = attackerId === attacker
+
+        if (!isAttackerPure) {
+            attacker = await getRealName(attackerId)
+        }
+
+        const lifeForce = nameBattle({ attacker, target })
+
+        return {
+            statusCode: 200,
+            body: getInChannelResponse(
+                getResponse(
+                    attackerId,
+                    targetUserId,
+                    attacker,
+                    target,
+                    lifeForce,
+                    false,
+                    isAttackerPure,
+                    isTargetPure,
+                ),
+                `Pure battle initiated by *<@${attackerUserId}>*. No stats recorded.`,
             ),
         }
     }

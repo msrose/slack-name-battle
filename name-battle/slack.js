@@ -18,7 +18,7 @@ function extractUserId(token) {
     return token.split('|')[0].replace(/[<@]/g, '')
 }
 
-function getResponseBody(text, responseType) {
+function getResponseBody(text, responseType, context) {
     return JSON.stringify({
         response_type: responseType,
         blocks: [
@@ -29,12 +29,26 @@ function getResponseBody(text, responseType) {
                     text,
                 },
             },
-        ],
+        ].concat(
+            context
+                ? [
+                      {
+                          type: 'context',
+                          elements: [
+                              {
+                                  type: 'mrkdwn',
+                                  text: context,
+                              },
+                          ],
+                      },
+                  ]
+                : [],
+        ),
     })
 }
 
-function getInChannelResponse(text) {
-    return getResponseBody(text, 'in_channel')
+function getInChannelResponse(text, context) {
+    return getResponseBody(text, 'in_channel', context)
 }
 
 function getEphemeralResponse(text) {

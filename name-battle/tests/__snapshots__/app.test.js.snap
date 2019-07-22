@@ -64,6 +64,131 @@ target is critically injured, with *16.67%* life force remaining! A destructive 
 }
 `;
 
+exports[`Slack name battle conducts a pure battle between a string and a user other than the initiator 1`] = `
+Object {
+  "blocks": Array [
+    Object {
+      "text": Object {
+        "text": "attackerstring challenges <@target> to a Name Battle! :collision: *_attackerstring_* attacks *_target_* in a parallel universe...
+target is dead, with *0%* life force remaining! A devastating attack! :skull:",
+        "type": "mrkdwn",
+      },
+      "type": "section",
+    },
+    Object {
+      "elements": Array [
+        Object {
+          "text": "Pure battle initiated by *<@intiator>*. No stats recorded.",
+          "type": "mrkdwn",
+        },
+      ],
+      "type": "context",
+    },
+  ],
+  "response_type": "in_channel",
+}
+`;
+
+exports[`Slack name battle conducts a pure battle between a user other than the initiator and a string 1`] = `
+Object {
+  "blocks": Array [
+    Object {
+      "text": Object {
+        "text": "<@attacker> challenges targetstring to a Name Battle! :collision: *_attacker_* attacks *_targetstring_* in a parallel universe...
+targetstring is wounded, with *58.33%* life force remaining! A worrying attack! :gun:",
+        "type": "mrkdwn",
+      },
+      "type": "section",
+    },
+    Object {
+      "elements": Array [
+        Object {
+          "text": "Pure battle initiated by *<@intiator>*. No stats recorded.",
+          "type": "mrkdwn",
+        },
+      ],
+      "type": "context",
+    },
+  ],
+  "response_type": "in_channel",
+}
+`;
+
+exports[`Slack name battle conducts a pure battle between the initator and a string 1`] = `
+Object {
+  "blocks": Array [
+    Object {
+      "text": Object {
+        "text": "<@attacker> challenges llamas to a Name Battle! :collision: *_attacker_* attacks *_llamas_* in a parallel universe...
+llamas is wounded, with *66.67%* life force remaining! A worrying attack! :gun:",
+        "type": "mrkdwn",
+      },
+      "type": "section",
+    },
+    Object {
+      "elements": Array [
+        Object {
+          "text": "Pure battle initiated by *<@attacker>*. No stats recorded.",
+          "type": "mrkdwn",
+        },
+      ],
+      "type": "context",
+    },
+  ],
+  "response_type": "in_channel",
+}
+`;
+
+exports[`Slack name battle conducts a pure battle between the initator and another user 1`] = `
+Object {
+  "blocks": Array [
+    Object {
+      "text": Object {
+        "text": "<@attacker> challenges <@target> to a Name Battle! :collision: *_attacker_* attacks *_target_* in a parallel universe...
+target is critically injured, with *16.67%* life force remaining! A destructive attack! :face_with_head_bandage:",
+        "type": "mrkdwn",
+      },
+      "type": "section",
+    },
+    Object {
+      "elements": Array [
+        Object {
+          "text": "Pure battle initiated by *<@attacker>*. No stats recorded.",
+          "type": "mrkdwn",
+        },
+      ],
+      "type": "context",
+    },
+  ],
+  "response_type": "in_channel",
+}
+`;
+
+exports[`Slack name battle conducts a pure battle between two users other than the initiator 1`] = `
+Object {
+  "blocks": Array [
+    Object {
+      "text": Object {
+        "text": "<@attacker> challenges <@target> to a Name Battle! :collision: *_attacker_* attacks *_target_* in a parallel universe...
+target is critically injured, with *16.67%* life force remaining! A destructive attack! :face_with_head_bandage:",
+        "type": "mrkdwn",
+      },
+      "type": "section",
+    },
+    Object {
+      "elements": Array [
+        Object {
+          "text": "Pure battle initiated by *<@intiator>*. No stats recorded.",
+          "type": "mrkdwn",
+        },
+      ],
+      "type": "context",
+    },
+  ],
+  "response_type": "in_channel",
+}
+`;
+
 exports[`Slack name battle counts suicides towards deaths on leaderboard 1`] = `
 Object {
   "blocks": Array [
@@ -288,7 +413,7 @@ Object {
   "blocks": Array [
     Object {
       "text": Object {
-        "text": "Usage: \`/name-battle @<target> | help | leaders | stats [@<target>] | status\`",
+        "text": "Usage: \`/name-battle @<target> | help | leaders | pure @attacker/string @target/string | pure @target/string | stats [@<target>] | status\`",
         "type": "mrkdwn",
       },
       "type": "section",
@@ -303,7 +428,7 @@ Object {
   "blocks": Array [
     Object {
       "text": Object {
-        "text": "Usage: \`/name-battle @<target> | help | leaders | stats [@<target>] | status\`",
+        "text": "Usage: \`/name-battle @<target> | help | leaders | pure @attacker/string @target/string | pure @target/string | stats [@<target>] | status\`",
         "type": "mrkdwn",
       },
       "type": "section",
@@ -313,7 +438,7 @@ Object {
 }
 `;
 
-exports[`Slack name battle shows a laederboard when the leaders command is given 1`] = `
+exports[`Slack name battle shows a leaderboard when the leaders command is given 1`] = `
 Object {
   "blocks": Array [
     Object {

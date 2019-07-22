@@ -190,7 +190,7 @@ describe('Slack name battle', () => {
         expect(JSON.parse(result.body)).toMatchSnapshot()
     })
 
-    it('shows a laederboard when the leaders command is given', async () => {
+    it('shows a leaderboard when the leaders command is given', async () => {
         getAllMetadataDocuments.mockImplementation(() => ({
             Items: [
                 { kills: 25, deaths: 5, slack_id: 'michael' },
@@ -246,6 +246,41 @@ describe('Slack name battle', () => {
             ScannedCount: 14,
         }))
         const body = `text=leaders&user_id=attacker`
+        const result = await lambdaHandler(getRequest(body))
+        expect(result.statusCode).toBe(200)
+        expect(JSON.parse(result.body)).toMatchSnapshot()
+    })
+
+    it('conducts a pure battle between the initator and another user', async () => {
+        const body = `text=pure <@target|targetusername>&user_id=attacker`
+        const result = await lambdaHandler(getRequest(body))
+        expect(result.statusCode).toBe(200)
+        expect(JSON.parse(result.body)).toMatchSnapshot()
+    })
+
+    it('conducts a pure battle between the initator and a string', async () => {
+        const body = `text=pure llamas&user_id=attacker`
+        const result = await lambdaHandler(getRequest(body))
+        expect(result.statusCode).toBe(200)
+        expect(JSON.parse(result.body)).toMatchSnapshot()
+    })
+
+    it('conducts a pure battle between two users other than the initiator', async () => {
+        const body = `text=pure <@attacker|attackername> <@target|targetname>&user_id=intiator`
+        const result = await lambdaHandler(getRequest(body))
+        expect(result.statusCode).toBe(200)
+        expect(JSON.parse(result.body)).toMatchSnapshot()
+    })
+
+    it('conducts a pure battle between a user other than the initiator and a string', async () => {
+        const body = `text=pure <@attacker|attackername> targetstring&user_id=intiator`
+        const result = await lambdaHandler(getRequest(body))
+        expect(result.statusCode).toBe(200)
+        expect(JSON.parse(result.body)).toMatchSnapshot()
+    })
+
+    it('conducts a pure battle between a string and a user other than the initiator', async () => {
+        const body = `text=pure attackerstring <@target|targetname>&user_id=intiator`
         const result = await lambdaHandler(getRequest(body))
         expect(result.statusCode).toBe(200)
         expect(JSON.parse(result.body)).toMatchSnapshot()
