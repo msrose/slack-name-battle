@@ -7,3 +7,4 @@ aws cloudformation deploy \
   --template-file packaged.yaml \
   --stack-name name-battle \
   --capabilities CAPABILITY_IAM
+aws s3 rm s3://name-battle-deployment --recursive
