@@ -55,12 +55,12 @@ async function getLeaderboard() {
         ScannedCount: total,
     } = await getAllMetadataDocuments()
     const leaders = allMetadata
-        .slice(0, 10)
         .map(({ slack_id: slackId, kills = 0, deaths = 0, suicides = 0 }) => ({
             slackId,
             ratio: kills / (deaths + suicides),
         }))
         .sort((a, b) => b.ratio - a.ratio)
+        .slice(0, 10)
     return {
         leaders,
         total,

@@ -224,4 +224,30 @@ describe('Slack name battle', () => {
         expect(result.statusCode).toBe(200)
         expect(JSON.parse(result.body)).toMatchSnapshot()
     })
+
+    it('gets the top leaders for the leaderboard', async () => {
+        getAllMetadataDocuments.mockImplementation(() => ({
+            Items: [
+                { kills: 25, deaths: 5, slack_id: 'michael' },
+                { kills: 25, deaths: 5, slack_id: 'machael' },
+                { kills: 25, deaths: 5, slack_id: 'mbchael' },
+                { kills: 25, deaths: 5, slack_id: 'mcchael' },
+                { kills: 25, deaths: 5, slack_id: 'mdchael' },
+                { kills: 25, deaths: 5, slack_id: 'mechael' },
+                { kills: 25, deaths: 5, slack_id: 'mfchael' },
+                { kills: 25, deaths: 5, slack_id: 'mgchael' },
+                { kills: 25, deaths: 5, slack_id: 'mhchael' },
+                { kills: 25, deaths: 5, slack_id: 'mjchael' },
+                { kills: 25, deaths: 5, slack_id: 'mkchael' },
+                { kills: 25, deaths: 5, slack_id: 'mlchael' },
+                { kills: 25, deaths: 5, slack_id: 'mmchael' },
+                { kills: 10, deaths: 1, slack_id: 'vikram' },
+            ],
+            ScannedCount: 14,
+        }))
+        const body = `text=leaders&user_id=attacker`
+        const result = await lambdaHandler(getRequest(body))
+        expect(result.statusCode).toBe(200)
+        expect(JSON.parse(result.body)).toMatchSnapshot()
+    })
 })
