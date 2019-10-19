@@ -51,7 +51,7 @@ Resources:
     Properties:
       CodeUri: name-battle/
       Handler: app.lambdaHandler
-      Runtime: nodejs8.10
+      Runtime: nodejs10.x
       Environment:
         Variables:
           SLACK_TOKEN: !Ref SlackTokenParameter

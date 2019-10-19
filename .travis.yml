@@ -1,6 +1,6 @@
 language: node_js
 node_js:
-  - "8.10"
+  - "10.16.3"
 script:
   - cd name-battle
   - npm install
