@@ -14,9 +14,10 @@ jest.mock('../utils', () => {
     return utils
 })
 
+const { URL } = require('url')
+
 const axios = require('axios')
 const MockAdapter = require('axios-mock-adapter')
-const { URL } = require('url')
 
 const mock = new MockAdapter(axios)
 

@@ -4,7 +4,4 @@ module.exports = {
       sourceType: 'module',
   },
   extends: ['@tophat/eslint-config/base', '@tophat/eslint-config/jest'],
-  rules: {
-      'no-console': 'off',
-  }
 }

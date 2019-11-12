@@ -1,5 +1,6 @@
-const aws = require('aws-sdk')
 const util = require('util')
+
+const aws = require('aws-sdk')
 
 const dynamodbOptions = {
     region: process.env.AWS_REGION || 'us-east-1',
