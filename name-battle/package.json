@@ -9,6 +9,6 @@
   },
   "devDependencies": {
     "aws-sdk": "^2.525.0",
-    "axios-mock-adapter": "^1.16.0"
+    "axios-mock-adapter": "^1.17.0"
   }
 }
