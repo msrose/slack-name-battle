@@ -8,7 +8,7 @@
     "name-battle": "^1.0.1"
   },
   "devDependencies": {
-    "aws-sdk": "^2.656.0",
+    "aws-sdk": "^2.658.0",
     "axios-mock-adapter": "^1.18.1"
   }
 }
